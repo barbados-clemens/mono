@@ -21,5 +21,9 @@
         "accessToken": "NDRjNTYzZGUtYTQ3Zi00YTE5LTg5YTktMTg5ZTkyNTAzN2YxfHJlYWQtd3JpdGU="
       }
     }
+  },
+  "workspaceLayout": {
+    "appsDir": "",
+    "libsDir": ""
   }
 }
