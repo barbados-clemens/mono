@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "cloudflare-workers",
+  "version": "0.0.1",
+  "generators": {
+    "cloudflare-workers": {
+      "factory": "./src/generators/cloudflare-workers/generator",
+      "schema": "./src/generators/cloudflare-workers/schema.json",
+      "description": "cloudflare-workers generator"
+    }
+  }
+}

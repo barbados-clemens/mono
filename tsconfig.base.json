@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@mono-ukulele/cf-workers": ["packages/cloudflare/workers/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
