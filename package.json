@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "release": "dotenv release-it --"
+    "release": "dotenv release-it --",
+    "pre-release": "npm run release -- --preRelease=alpha",
+    "publish": "npx nx run-many --target=publish --all",
+    "publish:alpha": "npx nx run-many --target=publish --all --tag=alpha"
   },
   "private": true,
   "dependencies": {
