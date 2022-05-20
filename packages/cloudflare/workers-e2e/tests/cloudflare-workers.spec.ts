@@ -29,17 +29,17 @@ describe('cloudflare-workers e2e', () => {
   it('should create cloudflare-workers', async () => {
     const project = uniq('cloudflare-workers');
     await runNxCommandAsync(
-      `generate @mono-ukulele/cf-workers:cloudflare-workers ${project}`
+      `generate @mono-ukulele/cf-workers:worker ${project}`
     );
     const result = await runNxCommandAsync(`build ${project}`);
-    expect(result.stdout).toContain('Executor ran');
+    expect(result.stdout).toContain('Successfully ran target build');
   }, 120000);
 
   describe('--directory', () => {
     it('should create src in the specified directory', async () => {
       const project = uniq('cloudflare-workers');
       await runNxCommandAsync(
-        `generate @mono-ukulele/cf-workers:cloudflare-workers ${project} --directory subdir`
+        `generate @mono-ukulele/cf-workers:worker ${project} --directory subdir`
       );
       expect(() =>
         checkFilesExist(`libs/subdir/${project}/src/index.ts`)
@@ -55,7 +55,7 @@ describe('cloudflare-workers e2e', () => {
         'dist/packages/cloudflare/workers'
       );
       await runNxCommandAsync(
-        `generate @mono-ukulele/cf-workers:cloudflare-workers ${projectName} --tags e2etag,e2ePackage`
+        `generate @mono-ukulele/cf-workers:worker ${projectName} --tags e2etag,e2ePackage`
       );
       const project = readJson(`libs/${projectName}/project.json`);
       expect(project.tags).toEqual(['e2etag', 'e2ePackage']);

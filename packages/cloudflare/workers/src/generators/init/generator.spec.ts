@@ -2,11 +2,11 @@ import { createTreeWithEmptyWorkspace } from '@nrwl/devkit/testing';
 import { Tree, readProjectConfiguration } from '@nrwl/devkit';
 
 import generator from './generator';
-import { CloudflareWorkersGeneratorSchema } from './schema';
+import { InitGeneratorSchema } from './schema';
 
-describe('cloudflare-workers generator', () => {
+describe('init generator', () => {
   let appTree: Tree;
-  const options: CloudflareWorkersGeneratorSchema = { name: 'test' };
+  const options: InitGeneratorSchema = { name: 'test' };
 
   beforeEach(() => {
     appTree = createTreeWithEmptyWorkspace();
@@ -16,5 +16,5 @@ describe('cloudflare-workers generator', () => {
     await generator(appTree, options);
     const config = readProjectConfiguration(appTree, 'test');
     expect(config).toBeDefined();
-  });
+  })
 });

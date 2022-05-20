@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cloudflare-workers generator should generate files 1`] = `
+"name = \\"my-worker-app\\"
+compatibility_date = \\"2022-05-20\\"
+
+[env.dev]
+kv_namespaces = []
+[env.production]
+kv_namespaces = []
+"
+`;
+
+exports[`cloudflare-workers generator should generate files 2`] = `
+Object {
+  "configurations": Object {
+    "production": Object {
+      "commands": Array [
+        "npx wrangler dev src/index.ts --tsconfig.json=tsconfig.lib.json --env=production",
+      ],
+    },
+  },
+  "executor": "@nrwl/workspace:run-commands",
+  "options": Object {
+    "commands": Array [
+      "npx wrangler dev src/index.ts --tsconfig.json=tsconfig.lib.json --env=dev",
+    ],
+    "cwd": "libs/my-worker-app",
+  },
+}
+`;
