@@ -1,5 +1,12 @@
 
 
+## [1.0.0-alpha.4](https://github.com/barbados-clemens/mono/compare/1.0.0-alpha.3...1.0.0-alpha.4) (2022-05-20)
+
+
+### Bug Fixes
+
+* **cf-workers:** fix worker generator with correct config ([7f83f0e](https://github.com/barbados-clemens/mono/commit/7f83f0e11c083ec807034aa7c128b9b2fbba5288))
+
 ## [1.0.0-alpha.3](https://github.com/barbados-clemens/mono/compare/1.0.0-alpha.2...1.0.0-alpha.3) (2022-05-20)
 
 
