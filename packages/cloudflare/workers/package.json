@@ -7,8 +7,9 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "wrangler": "^2.0.2",
-    "@cloudflare/workers-types": "^3.10.0"
-  }
+  "dependencies": {
+    "@nrwl/js": "^14.1.7",
+    "@nrwl/workspace": "^14.1.7"
+  },
+  "devDependencies": {}
 }
