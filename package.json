@@ -10,15 +10,15 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@nrwl/cli": "14.1.5",
-    "@nrwl/devkit": "14.1.5",
-    "@nrwl/eslint-plugin-nx": "14.1.5",
-    "@nrwl/jest": "14.1.5",
-    "@nrwl/js": "14.1.5",
-    "@nrwl/linter": "14.1.5",
-    "@nrwl/nx-cloud": "latest",
-    "@nrwl/nx-plugin": "^14.1.7",
-    "@nrwl/workspace": "14.1.5",
+    "@nrwl/cli": "14.1.7",
+    "@nrwl/devkit": "14.1.7",
+    "@nrwl/eslint-plugin-nx": "14.1.7",
+    "@nrwl/jest": "14.1.7",
+    "@nrwl/js": "14.1.7",
+    "@nrwl/linter": "14.1.7",
+    "@nrwl/nx-cloud": "14.0.5",
+    "@nrwl/nx-plugin": "14.1.7",
+    "@nrwl/workspace": "14.1.7",
     "@release-it/bumper": "^4.0.0",
     "@release-it/conventional-changelog": "^5.0.0",
     "@swc/cli": "~0.1.55",
@@ -33,7 +33,7 @@
     "eslint": "~8.12.0",
     "eslint-config-prettier": "8.1.0",
     "jest": "27.5.1",
-    "nx": "14.1.5",
+    "nx": "14.1.7",
     "prettier": "^2.5.1",
     "release-it": "^15.0.0",
     "ts-jest": "27.1.4",
@@ -45,3 +45,4 @@
     "packages/**"
   ]
 }
+

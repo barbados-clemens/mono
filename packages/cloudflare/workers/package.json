@@ -4,6 +4,9 @@
   "main": "src/index.js",
   "generators": "./generators.json",
   "executors": "./executors.json",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "wrangler": "^2.0.2",
     "@cloudflare/workers-types": "^3.10.0"
