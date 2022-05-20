@@ -49,6 +49,13 @@
         "jestConfig": "packages/cloudflare/workers/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["npm publish"],
+        "cwd": "dist/packages/cloudflare/workers"
+      }
     }
   },
   "tags": []
