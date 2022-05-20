@@ -1,1 +1,1 @@
-export * from './generators/worker/worker'
+export * from './generators/worker/worker';
