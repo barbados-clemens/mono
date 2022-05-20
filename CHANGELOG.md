@@ -1,5 +1,7 @@
 
 
+## [1.0.0-alpha.1](https://github.com/barbados-clemens/mono/compare/1.0.0-alpha.0...1.0.0-alpha.1) (2022-05-20)
+
 ## 1.0.0-alpha.0 (2022-05-20)
 
 
