@@ -3,10 +3,20 @@
   "name": "cloudflare-workers",
   "version": "0.0.1",
   "generators": {
-    "cloudflare-workers": {
-      "factory": "./src/generators/cloudflare-workers/generator",
-      "schema": "./src/generators/cloudflare-workers/schema.json",
-      "description": "cloudflare-workers generator"
+    "worker": {
+      "factory": "./src/generators/worker/worker",
+      "schema": "./src/generators/worker/schema.json",
+      "description": "Generate a cloudflare worker"
+    },
+    "kv": {
+      "factory": "./src/generators/kv/kv",
+      "schema": "./src/generators/kv/schema.json",
+      "description": "Add KV to a cloudflare worker"
+    },
+    "init": {
+      "factory": "./src/generators/init/init",
+      "schema": "./src/generators/init/schema.json",
+      "description": "init generator"
     }
   }
 }
