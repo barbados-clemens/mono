@@ -7,6 +7,7 @@ import {
   Tree, updateJson, updateProjectConfiguration,
 } from '@nrwl/devkit';
 import {libraryGenerator as jsLib} from "@nrwl/js";
+import {offset} from "@nrwl/workspace/src/utils/ast-utils";
 import * as path from 'path';
 import {workerInit} from "../init/generator";
 import {moveGenerator} from '@nrwl/workspace/generators'
@@ -44,11 +45,12 @@ function normalizeOptions(
 
 function addFiles(tree: Tree, options: NormalizedSchema) {
   const n = names(options.name);
+  const offset = offsetFromRoot(options.projectRoot);
   const templateOptions = {
     ...options,
     ...n,
     compatibilityDate: new Date().toISOString().split('T')[0],
-    offsetFromRoot: offsetFromRoot(options.projectRoot),
+    offsetFromRoot: offset,
     tmpl: '',
   };
   generateFiles(
@@ -66,6 +68,10 @@ addEventListener("fetch", (event) => {
 });
   `)
   tree.delete(joinPathFragments(options.projectRoot, 'src', 'lib', `${n.fileName}.ts`))
+  updateJson(tree,joinPathFragments(options.projectRoot, 'package.json'), json => {
+    json.type = "module"
+    return json;
+  })
 }
 
 export async function workerApp(
@@ -83,6 +89,7 @@ export async function workerApp(
     skipFormat: true,
     config: 'project',
   })
+  // TODO(caleb): move to apps dir. 
   // await moveGenerator(tree, {
   //   projectName: normalizedOptions.projectName,
   //   destination: `apps/${normalizedOptions.projectName}`,
@@ -91,7 +98,10 @@ export async function workerApp(
   console.log(normalizedOptions, tree.read('workspace.json', 'utf-8'));
   const projectConfig = readProjectConfiguration(tree, normalizedOptions.projectName);
 
-  updateJson(tree, joinPathFragments(projectConfig.root, 'tsconfig.json'), (json: TsConfig) => {
+  updateJson(tree, joinPathFragments(projectConfig.root, 'tsconfig.lib.json'), (json: TsConfig) => {
+    json.include =json.include || [];
+
+    json.include.push(`${offset}node_modules/@cloudflare/workers-types/index.d.ts`)
     json.compilerOptions = {
       "module": "es2022",
       "target": "es2021",
@@ -112,23 +122,19 @@ export async function workerApp(
       "noPropertyAccessFromIndexSignature": true,
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
-      "types": [
-        "@cloudflare/worker-types"
-      ]
     }
     return json;
   })
 
-  console.log(projectConfig);
   projectConfig.targets['serve'] = {
     executor: '@nrwl/workspace:run-commands',
     options: {
-      commands: ['npx wrangler dev src/index.ts --tsconfig.json=tsconfig.lib.json --env=dev'],
+      commands: ['npx wrangler dev src/index.ts --tsconfig=tsconfig.lib.json --env=dev'],
       cwd: normalizedOptions.projectRoot,
     },
     configurations: {
       production: {
-        commands: ['npx wrangler dev src/index.ts --tsconfig.json=tsconfig.lib.json --env=production'],
+        commands: ['npx wrangler dev src/index.ts --tsconfig=tsconfig.lib.json --env=production'],
       }
     }
   }
@@ -156,5 +162,6 @@ export async function workerApp(
 export default workerApp
 
 interface TsConfig {
+  include?: string[];
   compilerOptions?: Record<string, unknown>
 }
