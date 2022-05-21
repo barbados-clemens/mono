@@ -1,0 +1,6 @@
+import { handleRequest } from './request-handler';
+
+addEventListener("fetch", (event) => {
+  console.log('hello from event listener');
+  event.respondWith(handleRequest(event.request));
+});

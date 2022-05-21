@@ -1,0 +1,7 @@
+name = "<%= fileName %>"
+compatibility_date = "<%= compatibilityDate %>"
+
+[env.dev]
+kv_namespaces = []
+[env.production]
+kv_namespaces = []

@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cloudflare-workers generator should generate files 1`] = `
+Object {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "root": "apps/my-worker-app",
+  "sourceRoot": "apps/my-worker-app/src",
+  "tags": Array [],
+  "targets": Object {
+    "lint": Object {
+      "executor": "@nrwl/linter:eslint",
+      "options": Object {
+        "lintFilePatterns": Array [
+          "apps/my-worker-app/**/*.ts",
+        ],
+      },
+      "outputs": Array [
+        "{options.outputFile}",
+      ],
+    },
+    "publish": Object {
+      "configurations": Object {
+        "production": Object {
+          "commands": Array [
+            "npx wrangler publish src/index.ts --tsconfig=tsconfig.app.json --env=production",
+          ],
+        },
+      },
+      "executor": "@nrwl/workspace:run-commands",
+      "options": Object {
+        "commands": Array [
+          "npx wrangler publish src/index.ts --tsconfig=tsconfig.app.json --env=dev",
+        ],
+        "cwd": "apps/my-worker-app",
+      },
+    },
+    "serve": Object {
+      "configurations": Object {
+        "production": Object {
+          "commands": Array [
+            "npx wrangler dev src/index.ts --tsconfig=tsconfig.app.json --env=production",
+          ],
+        },
+      },
+      "executor": "@nrwl/workspace:run-commands",
+      "options": Object {
+        "commands": Array [
+          "npx wrangler dev src/index.ts --tsconfig=tsconfig.app.json --env=dev",
+        ],
+        "cwd": "apps/my-worker-app",
+      },
+    },
+  },
+}
+`;

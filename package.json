@@ -2,18 +2,46 @@
   "name": "monorepo",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
-  "private": true,
-  "dependencies": {},
-  "devDependencies": {
-    "@nrwl/cli": "14.1.5",
-    "@nrwl/nx-cloud": "latest",
-    "@nrwl/workspace": "14.1.5",
-    "nx": "14.1.5",
-    "prettier": "^2.5.1",
-    "typescript": "~4.6.2"
+  "scripts": {
+    "release": "dotenv release-it --",
+    "pre-release": "npm run release -- --preRelease=alpha",
+    "publish": "npx nx run-many --target=publish --all",
+    "publish:alpha": "npx nx run-many --target=publish --all --tag=alpha"
   },
-  "workspaces": [
-    "packages/**"
-  ]
+  "private": true,
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@nrwl/cli": "14.1.7",
+    "@nrwl/devkit": "14.1.7",
+    "@nrwl/eslint-plugin-nx": "14.1.7",
+    "@nrwl/jest": "14.1.7",
+    "@nrwl/js": "14.1.7",
+    "@nrwl/linter": "14.1.7",
+    "@nrwl/nx-cloud": "14.0.5",
+    "@nrwl/nx-plugin": "14.1.7",
+    "@nrwl/workspace": "14.1.7",
+    "@release-it/bumper": "^4.0.0",
+    "@release-it/conventional-changelog": "^5.0.0",
+    "@swc/cli": "~0.1.55",
+    "@swc/core": "~1.2.143",
+    "@swc/helpers": "~0.3.3",
+    "@swc/jest": "0.2.20",
+    "@types/jest": "27.4.1",
+    "@types/node": "16.11.7",
+    "@typescript-eslint/eslint-plugin": "~5.18.0",
+    "@typescript-eslint/parser": "~5.18.0",
+    "dotenv-cli": "^5.1.0",
+    "eslint": "~8.12.0",
+    "eslint-config-prettier": "8.1.0",
+    "jest": "27.5.1",
+    "nx": "14.1.7",
+    "prettier": "^2.5.1",
+    "release-it": "^15.0.0",
+    "ts-jest": "27.1.4",
+    "ts-node": "9.1.1",
+    "tslib": "^2.0.0",
+    "typescript": "~4.6.2"
+  }
 }
