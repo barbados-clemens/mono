@@ -1,5 +1,5 @@
 {
-  "version": "2",
+  "version": 2,
   "projects": {
     "cloudflare-workers": "packages/cloudflare/workers",
     "cloudflare-workers-e2e": "packages/cloudflare/workers-e2e"

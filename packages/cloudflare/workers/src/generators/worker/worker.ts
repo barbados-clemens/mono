@@ -1,20 +1,18 @@
 import {
+  addProjectConfiguration,
   formatFiles,
   generateFiles,
+  GeneratorCallback,
   getWorkspaceLayout,
   joinPathFragments,
   names,
   offsetFromRoot,
-  readProjectConfiguration,
   Tree,
-  updateJson,
-  updateProjectConfiguration,
 } from '@nrwl/devkit';
-import { libraryGenerator as jsLib } from '@nrwl/js';
-import { offset } from '@nrwl/workspace/src/utils/ast-utils';
+import { Linter, lintProjectGenerator } from '@nrwl/linter';
+import { getRootTsConfigPath } from 'nx/src/utils/typescript';
 import * as path from 'path';
-import { workerInit } from '../init/generator';
-import { moveGenerator } from '@nrwl/workspace/generators';
+import { workerInit } from '../init/init';
 import { CloudflareWorkersGeneratorSchema } from './schema';
 
 interface NormalizedSchema extends CloudflareWorkersGeneratorSchema {
@@ -33,7 +31,7 @@ function normalizeOptions(
     ? `${names(options.directory).fileName}/${name}`
     : name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(tree).libsDir}/${projectDirectory}`;
+  const projectRoot = `${getWorkspaceLayout(tree).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -50,9 +48,12 @@ function normalizeOptions(
 function addFiles(tree: Tree, options: NormalizedSchema) {
   const n = names(options.name);
   const offset = offsetFromRoot(options.projectRoot);
+  const { npmScope } = getWorkspaceLayout(tree);
   const templateOptions = {
     ...options,
     ...n,
+    rootTsConfigPath: getRootTsConfigPath(),
+    importPath: `@${npmScope}/${options.projectDirectory}`,
     compatibilityDate: new Date().toISOString().split('T')[0],
     offsetFromRoot: offset,
     tmpl: '',
@@ -63,28 +64,80 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
     options.projectRoot,
     templateOptions
   );
+}
 
-  tree.write(
-    joinPathFragments(options.projectRoot, 'src', 'index.ts'),
-    `
-import { handleRequest } from './lib/request-handler';
-addEventListener("fetch", (event) => {
-  console.log('hello from event listener');
-  event.respondWith(handleRequest(event.request));
-});
-  `
-  );
-  tree.delete(
-    joinPathFragments(options.projectRoot, 'src', 'lib', `${n.fileName}.ts`)
-  );
-  updateJson(
+function addProject(tree: Tree, options: NormalizedSchema) {
+  addProjectConfiguration(
     tree,
-    joinPathFragments(options.projectRoot, 'package.json'),
-    (json) => {
-      json.type = 'module';
-      return json;
-    }
+    options.projectName,
+    {
+      root: options.projectRoot,
+      tags: options.parsedTags,
+      projectType: 'application',
+      sourceRoot: `${options.projectRoot}/src`,
+      targets: {
+        // wrangler cli can handle ts code
+        // build: {
+        //   executor: '@nrwl/js:tsc',
+        //   outputs: ['{options.outputPath}'],
+        //   options: {
+        //     outputPath: `dist/${options.projectRoot}`,
+        //     main: `${options.projectRoot}/src/index.ts`,
+        //     tsConfig: `${options.projectRoot}/tsconfig.app.json`,
+        //     assets: [`${options.projectRoot}/*.md`],
+        //   },
+        // },
+        serve: {
+          executor: '@nrwl/workspace:run-commands',
+          options: {
+            commands: [
+              'npx wrangler dev src/index.ts --tsconfig=tsconfig.app.json --env=dev',
+            ],
+            cwd: options.projectRoot,
+          },
+          configurations: {
+            production: {
+              commands: [
+                'npx wrangler dev src/index.ts --tsconfig=tsconfig.app.json --env=production',
+              ],
+            },
+          },
+        },
+        publish: {
+          executor: '@nrwl/workspace:run-commands',
+          options: {
+            commands: [
+              `npx wrangler publish src/index.ts --tsconfig=tsconfig.app.json --env=dev`,
+            ],
+            cwd: options.projectRoot,
+          },
+          configurations: {
+            production: {
+              commands: [
+                `npx wrangler publish src/index.ts --tsconfig=tsconfig.app.json --env=production`,
+              ],
+            },
+          },
+        },
+      },
+    },
+    true
   );
+}
+
+export function addLint(
+  tree: Tree,
+  options: NormalizedSchema
+): Promise<GeneratorCallback> {
+  return lintProjectGenerator(tree, {
+    project: options.projectName,
+    linter: Linter.EsLint,
+    skipFormat: true,
+    tsConfigPaths: [
+      joinPathFragments(options.projectRoot, 'tsconfig.app.json'),
+    ],
+    eslintFilePatterns: [`${options.projectRoot}/**/*.ts`],
+  });
 }
 
 export async function workerApp(
@@ -93,97 +146,13 @@ export async function workerApp(
 ) {
   const normalizedOptions = normalizeOptions(tree, options);
   const cfWorkerInitTask = workerInit(tree);
-  await jsLib(tree, {
-    name: normalizedOptions.projectName,
-    tags: normalizedOptions.tags,
-    buildable: true,
-    unitTestRunner: 'none',
-    compiler: 'tsc',
-    skipFormat: true,
-    config: 'project',
-  });
-  // TODO(caleb): move to apps dir.
-  // await moveGenerator(tree, {
-  //   projectName: normalizedOptions.projectName,
-  //   destination: `apps/${normalizedOptions.projectName}`,
-  //   updateImportPath: true,
-  // });
-  console.log(normalizedOptions, tree.read('workspace.json', 'utf-8'));
-  const projectConfig = readProjectConfiguration(
-    tree,
-    normalizedOptions.projectName
-  );
 
-  updateJson(
-    tree,
-    joinPathFragments(projectConfig.root, 'tsconfig.lib.json'),
-    (json: TsConfig) => {
-      json.include = json.include || [];
-
-      json.include.push(
-        `${offset}node_modules/@cloudflare/workers-types/index.d.ts`
-      );
-      json.compilerOptions = {
-        module: 'es2022',
-        target: 'es2021',
-        lib: ['es2021'],
-        moduleResolution: 'node',
-        resolveJsonModule: true,
-        allowJs: true,
-        checkJs: true,
-        noEmit: true,
-        isolatedModules: true,
-        allowSyntheticDefaultImports: true,
-        skipLibCheck: true,
-        forceConsistentCasingInFileNames: true,
-        strict: true,
-        noImplicitOverride: true,
-        noPropertyAccessFromIndexSignature: true,
-        noImplicitReturns: true,
-        noFallthroughCasesInSwitch: true,
-      };
-      return json;
-    }
-  );
-
-  projectConfig.targets['serve'] = {
-    executor: '@nrwl/workspace:run-commands',
-    options: {
-      commands: [
-        'npx wrangler dev src/index.ts --tsconfig=tsconfig.lib.json --env=dev',
-      ],
-      cwd: normalizedOptions.projectRoot,
-    },
-    configurations: {
-      production: {
-        commands: [
-          'npx wrangler dev src/index.ts --tsconfig=tsconfig.lib.json --env=production',
-        ],
-      },
-    },
-  };
-
-  projectConfig.targets['publish'] = {
-    executor: '@nrwl/workspace:run-commands',
-    options: {
-      commands: [
-        `npx wrangler publish dist/${normalizedOptions.projectName} --env=dev`,
-      ],
-    },
-    configurations: {
-      production: {
-        commands: ['npx wrangler publish dist/${} --env=production'],
-      },
-    },
-  };
-  updateProjectConfiguration(
-    tree,
-    normalizedOptions.projectName,
-    projectConfig
-  );
   addFiles(tree, normalizedOptions);
+  addProject(tree, normalizedOptions);
+  const lintTask = await addLint(tree, normalizedOptions);
 
   return () => {
+    lintTask();
     formatFiles(tree);
     cfWorkerInitTask();
   };

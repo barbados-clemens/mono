@@ -16,7 +16,7 @@
     "init": {
       "factory": "./src/generators/init/init",
       "schema": "./src/generators/init/schema.json",
-      "description": "init generator"
+      "description": "Add requirements to workspace for cloudflare workers"
     }
   }
 }

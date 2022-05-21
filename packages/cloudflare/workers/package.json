@@ -8,7 +8,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nrwl/js": "^14.1.7",
+    "@nrwl/linter": "^14.1.7",
     "@nrwl/workspace": "^14.1.7",
     "@swc/helpers": "^0.3.13"
   },
