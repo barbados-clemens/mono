@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "name": "blog",
+  "description": "",
+  "license": "",
+  "scripts": {
+    "build": "remix build",
+    "serve:remix": "remix watch",
+    "serve:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
+    "serve": "remix build && run-p serve:*",
+    "start": "cross-env NODE_ENV=production npm run serve:wrangler"
+  },
+  "dependencies": {
+    "@remix-run/cloudflare": "^1.5.1",
+    "@remix-run/cloudflare-pages": "^1.5.1",
+    "@remix-run/react": "^1.5.1",
+    "cross-env": "^7.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "@monorepo/sample-lib": "*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.10.0",
+    "@remix-run/dev": "^1.5.1",
+    "@remix-run/eslint-config": "^1.5.1",
+    "@types/react": "^17.0.45",
+    "@types/react-dom": "^17.0.17",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^4.6.4",
+    "wrangler": "^2.0.6"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
+}

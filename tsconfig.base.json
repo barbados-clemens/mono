@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@mono-ukulele/cf-workers": ["packages/cloudflare/workers/src/index.ts"]
+      "@mono-ukulele/cf-workers": ["packages/cloudflare/workers/src/index.ts"],
+      "@monorepo/sample-lib": ["libs/sample-lib/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
