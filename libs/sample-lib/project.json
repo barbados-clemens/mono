@@ -1,6 +1,6 @@
 {
-  "root": "sample-lib",
-  "sourceRoot": "sample-lib/src",
+  "root": "libs/sample-lib",
+  "sourceRoot": "libs/sample-lib/src",
   "projectType": "library",
   "tags": [],
   "targets": {
@@ -10,10 +10,10 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "sample-lib/dist",
-        "tsConfig": "sample-lib/tsconfig.lib.json",
-        "project": "sample-lib/package.json",
-        "entryFile": "sample-lib/src/index.ts",
+        "outputPath": "libs/sample-lib/dist",
+        "tsConfig": "libs/sample-lib/tsconfig.lib.json",
+        "project": "libs/sample-lib/package.json",
+        "entryFile": "libs/sample-lib/src/index.ts",
         "external": [
           "react/jsx-runtime"
         ],
@@ -21,7 +21,7 @@
         "compiler": "babel",
         "assets": [
           {
-            "glob": "sample-lib/README.md",
+            "glob": "libs/sample-lib/README.md",
             "input": ".",
             "output": "."
           }
@@ -38,7 +38,7 @@
       ],
       "options": {
         "lintFilePatterns": [
-          "sample-lib/**/*.{ts,tsx,js,jsx}"
+          "libs/sample-lib/**/*.{ts,tsx,js,jsx}"
         ]
       }
     },
@@ -48,7 +48,7 @@
         "coverage/sample-lib"
       ],
       "options": {
-        "jestConfig": "sample-lib/jest.config.js",
+        "jestConfig": "libs/sample-lib/jest.config.js",
         "passWithNoTests": true
       }
     }

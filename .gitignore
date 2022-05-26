@@ -40,3 +40,4 @@ testem.log
 Thumbs.db
 
 .pnpm-debug.log
+dist
