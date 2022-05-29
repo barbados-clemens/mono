@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "blog",
+  "name": "music-urls",
   "description": "",
   "license": "",
   "scripts": {
@@ -9,6 +9,9 @@
     "serve:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
     "serve": "remix build && run-p serve:*",
     "start": "cross-env NODE_ENV=production npm run serve:wrangler"
+  },
+  "nx": {
+    "targets": {}
   },
   "dependencies": {
     "@remix-run/cloudflare": "^1.5.1",

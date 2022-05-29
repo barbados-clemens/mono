@@ -1,22 +1,17 @@
 {
-  "root": "libs/sample-lib",
   "sourceRoot": "libs/sample-lib/src",
   "projectType": "library",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@nrwl/web:rollup",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "libs/sample-lib/dist",
         "tsConfig": "libs/sample-lib/tsconfig.lib.json",
         "project": "libs/sample-lib/package.json",
         "entryFile": "libs/sample-lib/src/index.ts",
-        "external": [
-          "react/jsx-runtime"
-        ],
+        "external": ["react/jsx-runtime"],
         "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
         "compiler": "babel",
         "assets": [
@@ -26,27 +21,19 @@
             "output": "."
           }
         ],
-        "format": [
-          "cjs"
-        ]
+        "format": ["cjs"]
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/sample-lib/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["libs/sample-lib/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/sample-lib"
-      ],
+      "outputs": ["coverage/sample-lib"],
       "options": {
         "jestConfig": "libs/sample-lib/jest.config.js",
         "passWithNoTests": true
