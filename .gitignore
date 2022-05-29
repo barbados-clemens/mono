@@ -41,3 +41,5 @@ Thumbs.db
 
 .pnpm-debug.log
 dist
+
+apps/music-urls/functions
