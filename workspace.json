@@ -1,9 +1,9 @@
 {
   "version": 2,
   "projects": {
-    "places": "apps/places",
     "cloudflare-workers": "packages/cloudflare/workers",
     "cloudflare-workers-e2e": "packages/cloudflare/workers-e2e",
+    "places": "apps/places",
     "sample-lib": "libs/sample-lib"
   }
 }

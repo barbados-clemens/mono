@@ -7,42 +7,35 @@
       "outputs": ["apps/places/public", "apps/places/.netlify"],
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": [
-          "remix build"
-        ],
+        "commands": ["remix build"],
         "cwd": "apps/places"
       }
     },
     "serve": {
       "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "commands": [
-          "cross-env NODE_ENV=development netlify dev"
-        ],
+        "commands": ["cross-env NODE_ENV=development netlify dev"],
         "cwd": "apps/places"
       },
       "defaultConfiguration": "development",
       "configurations": {
         "production": {
-          "commands": [
-            "cross-env NODE_ENV=production netlify dev"
-          ]
+          "commands": ["cross-env NODE_ENV=production netlify dev"]
         },
         "development": {
-          "commands": [
-            "cross-env NODE_ENV=development netlify dev"
-
-          ]
+          "commands": ["cross-env NODE_ENV=development netlify dev"]
         }
       }
     },
     "deploy": {
       "dependsOn": [
         {
-        "target": "build", "projects": "self"
+          "target": "build",
+          "projects": "self"
         },
         {
-          "target": "build", "projects": "dependencies"
+          "target": "build",
+          "projects": "dependencies"
         }
       ],
       "executor": "@nrwl/workspace:run-commands",
