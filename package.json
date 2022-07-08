@@ -8,12 +8,21 @@
     "publish": "npx nx run-many --target=publish --all",
     "publish:alpha": "npx nx run-many --target=publish --all --tag=alpha"
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0",
+    "yarn": "use npm to install deps"
+  },
+  "workspaces": [
+    "apps/places",
+    "libs/sample-lib"
+  ],
   "private": true,
   "dependencies": {
     "core-js": "^3.6.5",
     "cross-env": "^7.0.3",
-    "react": "17",
-    "react-dom": "17",
+    "react": "^17",
+    "react-dom": "^17",
     "regenerator-runtime": "0.13.7",
     "tslib": "^2.3.0",
     "wrangler": "^2.0.6"
@@ -36,8 +45,6 @@
     "@swc/core": "~1.2.143",
     "@swc/helpers": "~0.3.3",
     "@swc/jest": "0.2.20",
-    "@testing-library/react": "13.0.0",
-    "@testing-library/react-hooks": "7.0.2",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.7",
     "@types/react": "17",
@@ -55,7 +62,6 @@
     "jest": "27.5.1",
     "nx": "14.1.7",
     "prettier": "^2.5.1",
-    "react-test-renderer": "18.0.0",
     "release-it": "^15.0.0",
     "ts-jest": "27.1.4",
     "ts-node": "9.1.1",
