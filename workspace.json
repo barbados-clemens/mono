@@ -1,7 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "apps-music-urls": "apps/music-urls",
+    "apps-places": "apps/places",
     "cloudflare-workers": "packages/cloudflare/workers",
     "cloudflare-workers-e2e": "packages/cloudflare/workers-e2e",
     "sample-lib": "libs/sample-lib"

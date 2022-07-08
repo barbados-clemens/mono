@@ -1,0 +1,7 @@
+name = "apps-music-urls"
+compatibility_date = "2022-05-30"
+
+[env.development]
+kv_namespaces = [
+  { binding = "MUSIC_LINKS", id = "6af7fe8b000b4f25ac1fbb7d61235263", preview_id = "06830bad79164918bfb2a805431ea1b2" }
+]

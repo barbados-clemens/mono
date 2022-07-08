@@ -1,0 +1,4 @@
+@import "~mapbox-gl/dist/mapbox-gl.css";
+.map-container {
+  height: 400px;
+}
