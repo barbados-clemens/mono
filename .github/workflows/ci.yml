@@ -28,3 +28,5 @@ jobs:
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.2
     with:
       number-of-agents: 3
+      node-version: 18.x
+      npm-version: 8.x
