@@ -2,11 +2,6 @@
   "name": "places",
   "private": true,
   "sideEffects": false,
-  "scripts": {
-    "build": "remix build",
-    "serve": "cross-env NODE_ENV=development netlify dev",
-    "start": "cross-env NODE_ENV=production netlify dev"
-  },
   "dependencies": {
     "@netlify/functions": "^1.0.0",
     "@remix-run/netlify": "^1.6.3",
@@ -29,6 +24,6 @@
     "typescript": "^4.6.4"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   }
 }
