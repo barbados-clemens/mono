@@ -6,16 +6,15 @@ on:
       - main
   pull_request:
 
-env:
-  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-
 jobs:
   main:
     name: Nx Cloud - Main Job
-    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.2
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.6
     with:
       node-version: 18.x
       npm-version: 8.x
+      environment-variables: |
+        NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }}
       parallel-commands: |
         npx nx-cloud record -- npx nx workspace-lint
         npx nx-cloud record -- npx nx format:check
@@ -23,13 +22,14 @@ jobs:
         npx nx affected --target=build --parallel=3
       final-commands: |
         NX_CLOUD_DISTRIBUTED_EXECUTION=false npx nx-cloud record -- npx nx affected --target=deploy --parallel=1
-
   #        npx nx affected --target=lint --parallel=3
   #        npx nx affected --target=test --parallel=3 --ci --code-coverage
   agents:
     name: Nx Cloud - Agents
-    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.2
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.6
     with:
       number-of-agents: 3
       node-version: 18.x
       npm-version: 8.x
+      environment-variables: |
+        NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }}
