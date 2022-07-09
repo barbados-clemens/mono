@@ -19,7 +19,7 @@ jobs:
       environment-variables: |
         NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN
       parallel-commands: |
-        echo $NETLIFY_AUTH_TOKEN
+        echo ${{env.NETLIFY_AUTH_TOKEN}}
         npx nx-cloud record -- npx nx workspace-lint
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
