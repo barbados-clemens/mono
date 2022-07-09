@@ -27,5 +27,10 @@
         "babel": true
       }
     }
+  },
+  "pluginsConfig": {
+    "@nrwl/js": {
+      "analyzeSourceFiles": true
+    }
   }
 }
