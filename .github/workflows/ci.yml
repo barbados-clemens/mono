@@ -6,9 +6,6 @@ on:
       - main
   pull_request:
 
-env:
-  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-
 jobs:
   main:
     name: Nx Cloud - Main Job
@@ -17,9 +14,8 @@ jobs:
       node-version: 18.x
       npm-version: 8.x
       environment-variables: |
-        NETLIFY_AUTH_TOKEN=$NETLIFY_AUTH_TOKEN
+        NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }}
       parallel-commands: |
-        echo ${{env.NETLIFY_AUTH_TOKEN}}
         npx nx-cloud record -- npx nx workspace-lint
         npx nx-cloud record -- npx nx format:check
       parallel-commands-on-agents: |
