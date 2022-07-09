@@ -5,8 +5,7 @@ on:
     branches:
       - main
   pull_request:
-env:
-  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
 jobs:
   main:
     name: Nx Cloud - Main Job
