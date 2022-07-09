@@ -10,11 +10,13 @@ jobs:
   main:
     name: Nx Cloud - Main Job
     uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.6
+    secrets: inherit
     with:
       node-version: 18.x
       npm-version: 8.x
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
       environment-variables: |
-        NETLIFY_AUTH_TOKEN=${{ secrets.NETLIFY_AUTH_TOKEN }}
+        NETLIFY_AUTH_TOKEN=${{ inputs.NETLIFY_AUTH_TOKEN }}
       parallel-commands: |
         npx nx-cloud record -- npx nx workspace-lint
         npx nx-cloud record -- npx nx format:check
@@ -27,6 +29,7 @@ jobs:
   agents:
     name: Nx Cloud - Agents
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.6
+    secrets: inherit
     with:
       number-of-agents: 3
       node-version: 18.x
