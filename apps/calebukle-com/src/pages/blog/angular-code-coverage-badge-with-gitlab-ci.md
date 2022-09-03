@@ -5,7 +5,7 @@ description: As the title says, this is how to enable the code coverage badge wi
 author: Caleb Ukle
 publish_date: 2018-07-23
 
-img: https://s3.amazonaws.com/media.calebukle.com/uploads/badges.png
+img: /blog/ng-gitlab-code-coverage/coverage-output.png
 tags:
   - Angular
   - Gitlab
@@ -16,7 +16,7 @@ tags:
 > _This post originally appeared on
 > [Medium on July 23, 2018](https://medium.com/@caleb.ukle/code-coverage-badge-with-angular-karma-istanbul-on-gitlab-ci-9611b69ad7e)._
 
-![Pipeline and Code Coverage status badges.](https://s3.amazonaws.com/media.calebukle.com/uploads/badges.png)
+![Pipeline and Code Coverage status badges.](/blog/ng-gitlab-code-coverage/badges.png)
 
 ## Update Karma Config
 
@@ -36,7 +36,7 @@ coverageIstanbulReporter:{
 Now when you run `ng test --watch=false --code-coverage` you will get a text
 summary in the console about your code coverage now. Hurrah!
 
-![terminal output showing code coverage](https://s3.amazonaws.com/media.calebukle.com/uploads/coverage-output.png)
+![terminal output showing code coverage](/blog/ng-gitlab-code-coverage/coverage-output.png)
 
 Alright, so now your project is configured to display the code coverage in the
 console. This is an important step because Gitlab uses Ruby Regular Expressions
@@ -140,8 +140,8 @@ artifact of the public/ directory tells Gitlab to use this as a Gitlab Page,
 auto-magically.
 
 That’s all there is to testing Angular applications in a Gitlab pipeline. More
-info about Gitlab CI/CD can be found
-[here](https://about.gitlab.com/features/gitlab-ci-cd/).
+[info about Gitlab CI/CD can be found
+here](https://about.gitlab.com/features/gitlab-ci-cd/).
 
 ---
 

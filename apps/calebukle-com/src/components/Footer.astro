@@ -1,13 +1,40 @@
 ---
+import RssFeed from './icons/RSSFeed.astro';
+import { GITHUB_BASE_PAGE_URL } from '../config';
+export interface Props {
+	editUrl?: string;
+}
 const today = new Date();
+const { editUrl = GITHUB_BASE_PAGE_URL } = Astro.props;
 ---
 
-<footer>
-	&copy; {today.getFullYear()} Caleb Ukle. All rights reserved.
+<footer class="mt-20 pb-16 text-slate-400">
+	<p class="flex items-center gap-2.5 text-gray-500/800 text-sm">
+		<span>
+			&copy; {today.getFullYear()} Caleb Ukle. All right reserved. &middot; Powered
+			by
+			{' '}
+			<a
+				class="inline-flex items-center gap-1 underline hover:text-gray-200 transition-colors"
+				href="https://astro.build"
+			>
+				Astro
+			</a>
+		</span>
+		&middot;{' '}
+		<a
+			href="/rss"
+			class="inline-flex items-center gap-1 hover:text-gray-200 transition-colors"
+			title="Atom Feed"
+		>
+			<RssFeed /> RSS
+		</a>
+		&middot;{' '}
+		<a
+			href={editUrl}
+			class="inline-flex items-center gap-1 underline hover:text-gray-200 transition-colors"
+		>
+			Edit this page
+		</a>
+	</p>
 </footer>
-<style>
-	footer {
-		padding: 25px;
-		text-align: center;
-	}
-</style>

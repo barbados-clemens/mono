@@ -21,9 +21,7 @@ export const SITE_TITLE = 'Caleb Ukle';
 export const SITE_DESCRIPTION =
 	'This is where I write about random things that are interesting to me. Enjoy!';
 
-export function normalizePost(
-	post: Frontmatter
-): Frontmatter & {
+export function normalizePost(post: Frontmatter): Frontmatter & {
 	formatted_publish_date: string | null;
 	formatted_updated_date: string | null;
 } {
@@ -49,3 +47,6 @@ export function normalizePosts(posts: BlogPost[]): BlogPost[] {
 				new Date(a.frontmatter?.publish_date).valueOf()
 		);
 }
+
+export const GITHUB_BASE_PAGE_URL =
+	'https://github.com/barbados-clemens/mono/tree/main/apps/calebukle-com/src/pages/';
