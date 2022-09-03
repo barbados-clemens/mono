@@ -4,7 +4,8 @@ title: Generate Code Coverage Badge with Gitlab CI and an Angular Project
 description: As the title says, this is how to enable the code coverage badge with Angular on Gitlab CI. Also, I’ll show setting up a Gitlab pipeline for testing an Angular application at the end.
 author: Caleb Ukle
 publish_date: 2018-07-23
-img: https://media.calebukle.com/uploads/badges.png
+
+img: https://s3.amazonaws.com/media.calebukle.com/uploads/badges.png
 tags:
   - Angular
   - Gitlab
@@ -15,22 +16,27 @@ tags:
 > _This post originally appeared on
 > [Medium on July 23, 2018](https://medium.com/@caleb.ukle/code-coverage-badge-with-angular-karma-istanbul-on-gitlab-ci-9611b69ad7e)._
 
-![Pipeline and Code Coverage status badges.](https://media.calebukle.com/uploads/badges.png)
+![Pipeline and Code Coverage status badges.](https://s3.amazonaws.com/media.calebukle.com/uploads/badges.png)
 
 ## Update Karma Config
 
 Angular uses Istanbul and Karma for built-in testing. So the first thing is to
 update the karma.conf.js file, specifically the code block titled
 coverageIstanbulReporter. In here, you’ll want to add text-summary to the
-reports array. More options for Karma can be found
-[here](https://github.com/mattlewis92/karma-coverage-istanbul-reporter#list-of-reporters-and-options).
+reports array. [More options for Karma](https://github.com/mattlewis92/karma-coverage-istanbul-reporter#list-of-reporters-and-options).
 
-![Add Text Summary to Karma Config.](https://media.calebukle.com/uploads/karma-config.png)
+```js
+coverageIstanbulReporter:{
+  dir: require("path").join(__dirname, "coverage"),
+  reports: ["html" "lcovonly", "text-summary"], // <- Right Here
+  fixWebpackSourcePaths: true
+},
+```
 
 Now when you run `ng test --watch=false --code-coverage` you will get a text
 summary in the console about your code coverage now. Hurrah!
 
-![100%.](https://media.calebukle.com/uploads/coverage-output.png)
+![terminal output showing code coverage](https://s3.amazonaws.com/media.calebukle.com/uploads/coverage-output.png)
 
 Alright, so now your project is configured to display the code coverage in the
 console. This is an important step because Gitlab uses Ruby Regular Expressions
@@ -68,9 +74,41 @@ with the code coverage percentage!
 ## Gitlab CI Config Example
 
 As promised, I’ll talk a little about setting up a Gitlab pipeline for testing
-Angular applications. Right up front here is my .gitlab-ci.yml
+Angular applications. Right up front here is my `.gitlab-ci.yml`
 
-![.gitlab-ci.yml file](https://media.calebukle.com/uploads/gitlab-config.png)
+```yaml
+cache:
+  paths: node_modules/
+before_script: yarn global add @angular/cli
+  yarn install
+testing:
+  image: trion/ng-cli-karma
+  stage: test
+  environment: test
+  script: ng test -watch=false --code-coverage
+    echo running end to end testing
+    ng e2e
+  artifacts:
+    paths: coverage/
+
+pages:
+  image: alpine
+  stage: deploy
+  dependencies: testing
+  before_script: echo 'deploying code coverage stats'
+  script: mv coverage/ public/
+  artifacts:
+    paths: public
+  expire_in: 30 days
+
+bundle_stage:
+  image: node
+  stage: build
+  environment: build
+  only: master
+  script: ng build -prod --output-path=public
+  # deploy somewhere
+```
 
 The trick for me was figuring out how to run the tests in a docker container.
 Because if you try running in just a node:latest container, it won’t work since

@@ -1,0 +1,51 @@
+---
+import GitHub from './icons/GitHub.astro';
+import Twitter from './icons/Twitter.astro';
+import LinkedIn from './icons/LinkedIn.astro';
+import Instagram from './icons/Instagram.astro';
+import Discogs from './icons/Discogs.astro';
+import ExternalLink from './icons/ExternalLink.astro';
+import Email from './icons/Email.astro';
+import Tooltip from './Tooltip.astro';
+
+export interface Props {
+	links: { url: string; title: string }[];
+}
+const socialAppIcons = new Map([
+	['github.com', GitHub],
+	['twitter.com', Twitter],
+	['instagram.com', Instagram],
+	['linkedin.com', LinkedIn],
+	['discogs.com', Discogs],
+]);
+
+const links = Astro.props.links?.map((link) => {
+	const url = new URL(link.url);
+	let Icon = ExternalLink;
+	if (url.protocol === 'mailto:') {
+		Icon = Email;
+	} else {
+		const icon = socialAppIcons.get(url.hostname.replace(/^www\./, ''));
+		if (icon) {
+			Icon = icon;
+		}
+	}
+
+	return {
+		...link,
+		Icon: Icon,
+	};
+});
+---
+
+{
+	links.map((l) => (
+		<a
+			class="relative flex items-center justify-center w-8 h-8 rounded-full bg-gray-400/10 text-gray-400 hover:bg-gray-400/15 hover:text-white transition-colors group"
+			href={l.url}
+		>
+			{<l.Icon />}
+			<Tooltip>{l.title}</Tooltip>
+		</a>
+	))
+}

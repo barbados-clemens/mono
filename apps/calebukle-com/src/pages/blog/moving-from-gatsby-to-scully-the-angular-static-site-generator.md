@@ -4,7 +4,7 @@ title: Moving From Gatsby to Scully (The Angular Static Site Generator)
 description: When originally building this site, I used Gatsby. But with the release of Scully, I jumped ship so I can use my favorite web framework, Angular instead of React.
 author: Caleb Ukle
 publish_date: 2020-02-16
-img: 'https://media.calebukle.com/uploads/scullyio-logo.png'
+img: 'https://s3.amazonaws.com/media.calebukle.com/uploads/scullyio-logo.png'
 tags:
   - Angular
   - Gatsby

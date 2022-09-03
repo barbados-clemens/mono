@@ -1,46 +1,52 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import Tags from '../components/Tags.astro';
+import Back from '../components/Back.astro';
+import { normalizePost, normalizePosts } from '../config';
 export interface Props {
 	content: {
 		title: string;
 		description: string;
-		publish_date?: string;
+		publish_date: string;
 		updated_date?: string;
 		img?: string;
 		tags?: string[];
 	};
 }
 
-const {
-	content: { title, description, publish_date, updated_date, img, tags},
-} = Astro.props;
+const { content: rawContent } = Astro.props;
+const content = normalizePost(rawContent);
 ---
 
-<html>
+<!DOCTYPE html>
+<html lang="en-us" class="dark">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={content.title} description={content.description} />
 	</head>
 
-	<body>
-		<Header />
+	<body class="bg-slate-900 text-slate-100 max-w-screen-sm px-6 pt-8 mx-auto">
+		<nav class="pb-16">
+			<Back />
+		</nav>
 		<main>
-			<article>
-				{img && (
-					<img
-						width={720}
-						height={360}
-						src={img}
-						alt=""
-					/>
-				)}
-				<h1 class="text-lg title">{title}</h1>
-				{tags  && <Tags tags={tags}/>}
-				{publish_date && <time>{publish_date}</time>}
-				{updated_date && <div>Last updated on <time>{updated_date}</time></div>}
-				<hr/>
+			<article class="flex gap-1 flex-col">
+				<h1 class="text-2xl">{content.title}</h1>
+				{content.tags && <Tags tags={content.tags} />}
+				{
+					content.formatted_publish_date && (
+						<time>{content.formatted_publish_date}</time>
+					)
+				}
+				{
+					content.formatted_updated_date && (
+						<div>
+							Last updated on <time>{content.formatted_updated_date}</time>
+						</div>
+					)
+				}
+				<hr />
 				<slot />
 			</article>
 		</main>

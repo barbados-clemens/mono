@@ -4,7 +4,7 @@ title: My First Machine, Getting Started with XState and Angular
 description: I have long been interested in XState, a JavaScript state machines and statecharts library. Up until this point I've not found a reason to use a state management library, but XState has really piqued my interest.
 author: Caleb Ukle
 publish_date: 2020-09-11T05:00:15.378Z
-img: https://media.calebukle.com/uploads/2020/09/bill-oxford--machine-unsplash.jpg
+img: https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/bill-oxford--machine-unsplash.jpg
 tags:
   - XState
   - Angular
@@ -79,33 +79,32 @@ So here's what I think will work initially.
 
 // add this to enable the visualizer, also allow popups
 inspect({
-  url: "https://statecharts.io/inspect",
-  iframe: false,
+	url: 'https://statecharts.io/inspect',
+	iframe: false,
 });
 
 // what information do I need to store on the machine?
 interface SearchContext {
-  // I need to know what the user searched for
-  query: string;
-  // gotta store the results of query will be helpful
-  results: SearchResult[];
+	// I need to know what the user searched for
+	query: string;
+	// gotta store the results of query will be helpful
+	results: SearchResult[];
 }
 
 // what are the possible "positions" aka states can I be in?
 interface SearchStateSchema {
-  states: {
-    // initial machine state
-    idle: {};
-    // doing work
-    searching: {};
-  };
+	states: {
+		// initial machine state
+		idle: {};
+		// doing work
+		searching: {};
+	};
 }
 
 // what triggers movement through my machine?
 type SearchEvent =
-  // well I need to tell the machine I am making a search
-  | { type: "SEARCH"; value: string }
-  | { type: "DATA"; value: any[] };
+	// well I need to tell the machine I am making a search
+	{ type: 'SEARCH'; value: string } | { type: 'DATA'; value: any[] };
 ```
 
 Okay that's a good start. I now know what the machine has to do. Let's get basic
@@ -199,18 +198,13 @@ need to return. `{type: 'DATA', value: string[]}`
 
 // should return {type: 'DATA', value: string[]} as an observable
 const doSearch = (ctx, event) => {
-  return of(event.value)
-    .pipe(
-      delay(2000), // network delay
-      map((value) => ({
-        type: "DATA",
-        value: [
-          value,
-          `${value}, ${value}`,
-          `${value}, ${value}, ${value}`,
-        ],
-      })),
-    );
+	return of(event.value).pipe(
+		delay(2000), // network delay
+		map((value) => ({
+			type: 'DATA',
+			value: [value, `${value}, ${value}`, `${value}, ${value}, ${value}`],
+		}))
+	);
 };
 ```
 
@@ -233,12 +227,12 @@ visualizer
 
 ```json
 {
-  "type": "SEARCH",
-  "value": "my query"
+	"type": "SEARCH",
+	"value": "my query"
 }
 ```
 
-![Search event via state chart visulizer](https://media.calebukle.com/uploads/2020/09/wk-x7LXqKPq9w.png)
+![Search event via state chart visulizer](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/wk-x7LXqKPq9w.png)
 
 After sending that event we should have the `DATA` event trigger that contains
 the _search results_
@@ -254,7 +248,7 @@ the _search results_
 }
 ```
 
-![Data event via state chart visulizer](https://media.calebukle.com/uploads/2020/09/wk-nQqXZdTYR4.png)
+![Data event via state chart visulizer](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/wk-nQqXZdTYR4.png)
 
 ### Prevent Invalid Query
 
@@ -332,25 +326,23 @@ And finally some markup
 
 ```html
 <p>
-  <input type="text" [formControl]="inputControl">
+	<input type="text" [formControl]="inputControl" />
 </p>
-<p>
-  input: {{ inputControl.valueChanges | async }}
-</p>
+<p>input: {{ inputControl.valueChanges | async }}</p>
 <ng-container *ngIf="searchSrv.state$ | async as state">
-<p>Machine Query: {{ state?.context?.query }}</p>
+	<p>Machine Query: {{ state?.context?.query }}</p>
 
-Results: 
-<br>
-<ul>
-  <li *ngFor="let r of state?.context?.results" >{{ r }}</li>
-</ul>
+	Results:
+	<br />
+	<ul>
+		<li *ngFor="let r of state?.context?.results">{{ r }}</li>
+	</ul>
 
-<hr>
+	<hr />
 
-State:
-<br>
-<pre>{{ state | json }}</pre>
+	State:
+	<br />
+	<pre>{{ state | json }}</pre>
 </ng-container>
 ```
 
@@ -371,11 +363,10 @@ and not able to handle the 'search' event.
 This is simple with plain RxJS by using the `switchMap` operator.
 
 ```ts
-searchResults$ = this.inputControl.valueChanges
-  .pipe(
-    /// debounce and filter stuff
-    switchMap((query) => doSearch(query)),
-  );
+searchResults$ = this.inputControl.valueChanges.pipe(
+	/// debounce and filter stuff
+	switchMap((query) => doSearch(query))
+);
 ```
 
 So the question is how do I achieve this same _logic flow_ with XState?
@@ -450,7 +441,7 @@ when executing our service.
 states: {
   idle: {},
   error: {},// empty because when the next search comes through it'll transition into searching
-  searching: {} 
+  searching: {}
 }
 ```
 
@@ -466,7 +457,7 @@ invoke: {
     actions: assign({
       results: (ctx, event) => event.data
     }),
-  }, 
+  },
   onError: {
     target: 'error'
   }
@@ -485,4 +476,4 @@ Other parting thoughts.
 1. UI/UX is simplified because the current state is known. Derive views from
    that info.
 
-![Actually app this machine is used for](https://media.calebukle.com/uploads/2020/09/wk-7gcFOovRoe.gif)
+![Actually app this machine is used for](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/wk-7gcFOovRoe.gif)

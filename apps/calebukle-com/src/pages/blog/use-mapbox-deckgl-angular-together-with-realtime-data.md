@@ -4,18 +4,18 @@ title: Mapbox, Deck.gl, and Angular for Realtime Data Visualization
 description: Recently, I was inspired by Jeff from fireship.io with his video over data visualization using deck.gl and google maps. I wanted to tinker with using a framework (angular) and Mapbox to make a realtime data visualization.
 author: Caleb Ukle
 publish_date: 2019-11-10
-img: https://media.calebukle.com/uploads/update-viz.gif
-tags: 
-    - Angular
-    - Mapbox
-    - Deck.gl
-    - Data Science
-    - Blog
+img: https://s3.amazonaws.com/media.calebukle.com/uploads/update-viz.gif
+tags:
+  - Angular
+  - Mapbox
+  - Deck.gl
+  - Data Science
+  - Blog
 ---
 
 [Link to fireship.io tutorial](https://fireship.io/lessons/deckgl-google-maps-tutorial/)
 
-![Datapoints Updating](https://media.calebukle.com/uploads/update-viz.gif)
+![Datapoints Updating](https://s3.amazonaws.com/media.calebukle.com/uploads/update-viz.gif)
 
 > Disclaimer: I've spent around 5 hours exploring deck.gl for a singular purpose
 > of trying to get data points to render from a stream of new data. so I might
@@ -60,19 +60,19 @@ Let's add the Mapbox access token to our `environment.ts`
 
 ```ts
 export const environment = {
-  production: false,
-  mapbox: {
-    accessToken: "", // Your access token goes here
-  },
+	production: false,
+	mapbox: {
+		accessToken: '', // Your access token goes here
+	},
 };
 ```
 
 Now to tell Mapbox what our access token is. In `app.module.ts` add this code
 
 ```ts
-import { HttpClientModule } from "@angular/common/http";
-import { environment } from "src/environments/environment";
-import * as mapbox from "mapbox-gl";
+import { HttpClientModule } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import * as mapbox from 'mapbox-gl';
 (mapbox as any).accessToken = environment.mapbox.accessToken;
 ```
 
@@ -156,8 +156,8 @@ Now we need to add some styles so our map is full screen. In
 
 ```css
 .app-main {
-  height: 100vh;
-  width: 100vw;
+	height: 100vh;
+	width: 100vw;
 }
 ```
 
@@ -165,9 +165,10 @@ remove the default margin and padding on the browser
 
 ```css
 /* styles.scss */
-html,body { 
-  margin: 0; 
-  padding: 0;
+html,
+body {
+	margin: 0;
+	padding: 0;
 }
 ```
 
@@ -245,14 +246,15 @@ Now all we have do call this method in the bottom of the `ngAfterViewInit`
 lifecycle hook with our data like so
 
 ```ts
-this.mapSrv.getData(1)
-  .pipe(
-    switchMap((d) => combineLatest(of(d), this.mapSrv.map)),
-    map(([d, glMap]) => {
-      return this.setLayers(glMap, d);
-    }),
-  )
-  .subscribe();
+this.mapSrv
+	.getData(1)
+	.pipe(
+		switchMap((d) => combineLatest(of(d), this.mapSrv.map)),
+		map(([d, glMap]) => {
+			return this.setLayers(glMap, d);
+		})
+	)
+	.subscribe();
 ```
 
 This will now load a scatter plot layer on top of your Mapbox map.
@@ -295,9 +297,9 @@ And add this to our `app.component.scss` file as well.
 
 ```css
 button.updates {
-    position: fixed;
-    right: 100px;
-    top: 100px;
+	position: fixed;
+	right: 100px;
+	top: 100px;
 }
 ```
 
@@ -334,10 +336,10 @@ ngAfterViewInit(): void {
             })
         )
         .subscribe()
-    
+
     this.mapSrv.getData(1)
         .subscribe(d => this.mapSrv.mapDataSub.next(d))
-    
+
     this.map = new Map({
         container: this.mapEl.nativeElement,
         style: 'mapbox://styles/mapbox/dark-v9',
@@ -346,7 +348,7 @@ ngAfterViewInit(): void {
         pitch: 20,
         attributionControl: false
     });
-    
+
     this.map.addControl(
         new NavigationControl({
             showZoom: true,
@@ -355,9 +357,9 @@ ngAfterViewInit(): void {
         }),
         'top-right'
     );
-    
+
     this.mapSrv.map.next(this.map);
-    
+
     this.map.on('load', () => {
         console.log('map loaded');
         this.mapSrv.map.complete();
@@ -373,17 +375,16 @@ data file.
 In `loadData`, change the code to match like so
 
 ```ts
-this.mapSrv.getData(2)
-  .subscribe((d) => this.mapSrv.mapDataSub.next(d));
+this.mapSrv.getData(2).subscribe((d) => this.mapSrv.mapDataSub.next(d));
 ```
 
 Almost there we still need to make one change in out `setLayers` method. At the
 beginning of the method add the following code.
 
 ```ts
-const layer = m.getLayer("scatter");
+const layer = m.getLayer('scatter');
 if (!!layer) {
-  m.removeLayer("scatter");
+	m.removeLayer('scatter');
 }
 // Rest of function
 ```

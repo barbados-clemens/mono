@@ -6,7 +6,9 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
 // Use Astro.glob() to fetch all posts, and then sort them by date.
 const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
-	(a, b) => new Date(b.frontmatter?.pubDate || b.frontmatter.publish_date).valueOf() - new Date(a.frontmatter?.pubDate || a.frontmatter?.publish_date).valueOf()
+	(a, b) =>
+		new Date(b.frontmatter?.pubDate || b.frontmatter.publish_date).valueOf() -
+		new Date(a.frontmatter?.pubDate || a.frontmatter?.publish_date).valueOf()
 );
 ---
 
@@ -37,18 +39,23 @@ const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
 		<main>
 			<section>
 				<ul>
-					{posts.map((post) => (
-						<li>
-							<time datetime={post.frontmatter.pubDate}>
-								{new Date(post.frontmatter.pubDate).toLocaleDateString('en-us', {
-									year: 'numeric',
-									month: 'short',
-									day: 'numeric',
-								})}
-							</time>
-							<a href={post.url}>{post.frontmatter.title}</a>
-						</li>
-					))}
+					{
+						posts.map((post) => (
+							<li>
+								<time datetime={post.frontmatter.pubDate}>
+									{new Date(post.frontmatter.pubDate).toLocaleDateString(
+										'en-us',
+										{
+											year: 'numeric',
+											month: 'short',
+											day: 'numeric',
+										}
+									)}
+								</time>
+								<a href={post.url}>{post.frontmatter.title}</a>
+							</li>
+						))
+					}
 				</ul>
 			</section>
 			<Footer />

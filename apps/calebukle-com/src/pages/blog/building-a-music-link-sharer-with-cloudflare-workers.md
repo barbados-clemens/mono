@@ -4,7 +4,7 @@ title: Building a Music Link Sharer with Cloudflare Workers
 description: Look into how I built my own music link sharer service, all on the network edge. ⚡
 author: Caleb Ukle
 publish_date: 2020-09-07
-img: https://media.calebukle.com/uploads/music/vinyl-placeholder.jpg
+img: https://s3.amazonaws.com/media.calebukle.com/uploads/music/vinyl-placeholder.jpg
 tags:
   - Cloudflare
   - Music
@@ -40,36 +40,36 @@ Here is a JSON records stored in the KV store.
 
 ```json
 {
-  "type": "Album",
-  "name": "Good Times by Willie Nelson",
-  "img": "https://media.calebukle.com/uploads/music/acbb167-good-times-willie.jpg",
-  "links": [
-    {
-      "service": "Tidal",
-      "link": "https://listen.tidal.com/album/1760153"
-    },
-    {
-      "service": "Spotify",
-      "link": "https://open.spotify.com/album/36pKx43hkeUF1OGxuxKkZw"
-    },
-    {
-      "service": "Apple Music",
-      "link": "https://music.apple.com/us/album/good-times/278443234"
-    },
-    {
-      "service": "Pandora",
-      "link": "https://www.pandora.com/artist/willie-nelson/good-times/ALtl6h7Zq3kxnk9?part=ug-desktop&corr=153729558"
-    },
-    {
-      "service": "Amazon Music",
-      "link": "https://music.amazon.com/albums/B0017VP7CM"
-    },
-    {
-      "service": "YouTube Music",
-      "link": "https://music.youtube.com/playlist?list=OLAK5uy_mTFHzUNuXX2bJEGLPQfxcASWnFkT49EzA"
-    }
-  ],
-  "b64": "/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAGwABAAEFAQAAAAAAAAAAAAAAAAQBAgMFBwb/xAAjEAABBAEEAgMBAAAAAAAAAAABAgMEEQAGEhMhMUEFUWEV/8QAFwEBAQEBAAAAAAAAAAAAAAAAAgEABP/EABwRAAMAAgMBAAAAAAAAAAAAAAABEQIDISIxQf/aAAwDAQACEQMRAD8A83C1hq2M7JaYeceacaSEl8DahV2VDrz6vK6P1rMhyf5vyhfXIkqPFKVIUSpdAbVWeh1583kdhprslSyf05n06xGE6Q8plCnWW3Ni1JsgkDx9e848uyaZNe5rmHSI+vVsN8cv4qK66k0VNlVH6sqsk4zny+FS1EoFk4wp5JSge2uw1DTit1XkiHIWwJRRR3p7v1dC8Yx/Qrws5VfmMYyGh//Z"
+	"type": "Album",
+	"name": "Good Times by Willie Nelson",
+	"img": "https://s3.amazonaws.com/media.calebukle.com/uploads/music/acbb167-good-times-willie.jpg",
+	"links": [
+		{
+			"service": "Tidal",
+			"link": "https://listen.tidal.com/album/1760153"
+		},
+		{
+			"service": "Spotify",
+			"link": "https://open.spotify.com/album/36pKx43hkeUF1OGxuxKkZw"
+		},
+		{
+			"service": "Apple Music",
+			"link": "https://music.apple.com/us/album/good-times/278443234"
+		},
+		{
+			"service": "Pandora",
+			"link": "https://www.pandora.com/artist/willie-nelson/good-times/ALtl6h7Zq3kxnk9?part=ug-desktop&corr=153729558"
+		},
+		{
+			"service": "Amazon Music",
+			"link": "https://music.amazon.com/albums/B0017VP7CM"
+		},
+		{
+			"service": "YouTube Music",
+			"link": "https://music.youtube.com/playlist?list=OLAK5uy_mTFHzUNuXX2bJEGLPQfxcASWnFkT49EzA"
+		}
+	],
+	"b64": "/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAUABQDASIAAhEBAxEB/8QAGwABAAEFAQAAAAAAAAAAAAAAAAQBAgMFBwb/xAAjEAABBAEEAgMBAAAAAAAAAAABAgMEEQAGEhMhMUEFUWEV/8QAFwEBAQEBAAAAAAAAAAAAAAAAAgEABP/EABwRAAMAAgMBAAAAAAAAAAAAAAABEQIDISIxQf/aAAwDAQACEQMRAD8A83C1hq2M7JaYeceacaSEl8DahV2VDrz6vK6P1rMhyf5vyhfXIkqPFKVIUSpdAbVWeh1583kdhprslSyf05n06xGE6Q8plCnWW3Ni1JsgkDx9e848uyaZNe5rmHSI+vVsN8cv4qK66k0VNlVH6sqsk4zny+FS1EoFk4wp5JSge2uw1DTit1XkiHIWwJRRR3p7v1dC8Yx/Qrws5VfmMYyGh//Z"
 }
 ```
 
@@ -97,7 +97,7 @@ and the worst cases are sub 2ms. The rest of the time is spent on transferring
 the tiny 3.60 KB, [Brotli encoded](https://en.wikipedia.org/wiki/Brotli), text
 to your browser.
 
-![All Cloudflare worker time is <2ms](https://media.calebukle.com/uploads/2020/09/hm-ngquZIj3%402x.png)
+![All Cloudflare worker time is <2ms](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/hm-ngquZIj3%402x.png)
 
 ### JS Exceptions
 
@@ -114,30 +114,30 @@ Here is the code for blur-ing up images
 > [Check out my blur up plugin write up to learn more](https://calebukle.com/blog/blur-up-fade-in-images-without-gatsby-a-scully-plugin)
 
 ```js
-const imageWrappers = document.querySelectorAll(".img-wrapper");
+const imageWrappers = document.querySelectorAll('.img-wrapper');
 for (let i = 0; i < imageWrappers.length; i++) {
-  const imgWrap = imageWrappers[i];
-  const imgEl = imgWrap.querySelector("img");
-  const onImageComplete = () => {
-    imgEl.style.opacity = 1;
-    imgEl.style.filter = null;
-    imgEl.style.color = "inherit";
-    // imgEl.style.boxShadow = 'inset 0 0 0 400px white'
-    imgEl.removeEventListener("load", onImageLoad);
-    imgEl.removeEventListener("error", onImageComplete);
-  };
-  const onImageLoad = () => {
-    imgEl.style.transition = "opacity .4s cubic-bezier(0.4, 0.0, 0.2, 1)";
-    onImageComplete();
-  };
-  imgEl.style.opacity = 0;
-  imgEl.style.filter = "blur(10px)";
-  imgEl.style.transform = "scale(1)";
-  imgEl.addEventListener("load", onImageLoad);
-  imgEl.addEventListener("error", onImageComplete);
-  if (imgEl.complete) {
-    onImageComplete();
-  }
+	const imgWrap = imageWrappers[i];
+	const imgEl = imgWrap.querySelector('img');
+	const onImageComplete = () => {
+		imgEl.style.opacity = 1;
+		imgEl.style.filter = null;
+		imgEl.style.color = 'inherit';
+		// imgEl.style.boxShadow = 'inset 0 0 0 400px white'
+		imgEl.removeEventListener('load', onImageLoad);
+		imgEl.removeEventListener('error', onImageComplete);
+	};
+	const onImageLoad = () => {
+		imgEl.style.transition = 'opacity .4s cubic-bezier(0.4, 0.0, 0.2, 1)';
+		onImageComplete();
+	};
+	imgEl.style.opacity = 0;
+	imgEl.style.filter = 'blur(10px)';
+	imgEl.style.transform = 'scale(1)';
+	imgEl.addEventListener('load', onImageLoad);
+	imgEl.addEventListener('error', onImageComplete);
+	if (imgEl.complete) {
+		onImageComplete();
+	}
 }
 ```
 
@@ -147,23 +147,24 @@ Here is the code for the native sharing abilities.
 > [`navigator.share()` api](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share)
 
 ```js
-let shareSheet = document.querySelector("#share-sheet");
+let shareSheet = document.querySelector('#share-sheet');
 if (navigator.canShare && navigator.canShare({ url: location.href })) {
-  shareSheet.innerHTML = "${shareable}";
+	shareSheet.innerHTML = '${shareable}';
 } else {
-  console.debug("Unable to use native share sheet");
+	console.debug('Unable to use native share sheet');
 }
 
 function shareMe() {
-  if (navigator.canShare && navigator.canShare({ url: location.href })) {
-    // TODO make this work on subsequent shares without throwing errors
-    navigator.share({ url: location.href })
-      .then((res) => console.log("shared!", res))
-      .catch((e) => {
-        console.error(e);
-        alert(e.toString());
-      });
-  }
+	if (navigator.canShare && navigator.canShare({ url: location.href })) {
+		// TODO make this work on subsequent shares without throwing errors
+		navigator
+			.share({ url: location.href })
+			.then((res) => console.log('shared!', res))
+			.catch((e) => {
+				console.error(e);
+				alert(e.toString());
+			});
+	}
 }
 ```
 
@@ -219,6 +220,7 @@ see that with my current workflow.
 6. Add any other music services used by friends
 
    - Reach out if I'm missing your favorite
+
 7. Add Easter Eggs 😉
 
 > [Check out the source code](https://gitlab.com/caleb-ukle/music-url-links)

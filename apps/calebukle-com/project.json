@@ -1,40 +1,40 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/calebukle-com/src",
-  "projectType": "application",
-  "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "outputs": ["dist/apps/calebukle-com"],
-      "options": {
-        "commands": ["astro build"],
-        "parallel": false,
-        "cwd": "apps/calebukle-com"
-      }
-    },
-    "serve": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": ["astro dev --root=apps/calebukle-com"]
-      },
-      "parallel": false,
-      "cwd": "apps/calebukle-com"
-    },
-    "preview": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": ["astro preview --root=apps/calebukle-com"]
-      },
-      "parallel": false,
-      "cwd": "apps/calebukle-com"
-    },
-    "lint": {
-      "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/calebukle-com/**/*.ts"]
-      }
-    }
-  },
-  "tags": ["scope:calebukle-com", "type:app"]
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/calebukle-com/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "nx:run-commands",
+			"outputs": ["dist/apps/calebukle-com"],
+			"options": {
+				"commands": ["astro build"],
+				"parallel": false,
+				"cwd": "apps/calebukle-com"
+			}
+		},
+		"serve": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": ["astro dev --root=apps/calebukle-com"]
+			},
+			"parallel": false,
+			"cwd": "apps/calebukle-com"
+		},
+		"preview": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": ["astro preview --root=apps/calebukle-com"]
+			},
+			"parallel": false,
+			"cwd": "apps/calebukle-com"
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["apps/calebukle-com/**/*.ts"]
+			}
+		}
+	},
+	"tags": ["scope:calebukle-com", "type:app"]
 }

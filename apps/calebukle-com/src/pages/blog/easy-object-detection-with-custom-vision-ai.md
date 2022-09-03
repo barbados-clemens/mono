@@ -1,10 +1,10 @@
 ---
 layout: '../../layouts/BlogPost.astro'
 title: How To Make  A Custom Image Object Detection Model (The Easy Way)
-description: I've been trying to make and train a custom machine learning model for detecting specific objects in images. After some exploring, I found a massively easy way to do this. Here is my found solution to build, train, and output the model in the desired ML Format! 
+description: I've been trying to make and train a custom machine learning model for detecting specific objects in images. After some exploring, I found a massively easy way to do this. Here is my found solution to build, train, and output the model in the desired ML Format!
 author: Caleb Ukle
 publish_date: 2019-10-31
-img: https://media.calebukle.com/uploads/buck-ai-predict.png
+img: https://s3.amazonaws.com/media.calebukle.com/uploads/buck-ai-predict.png
 tags:
   - Machine Learning
   - Object Detection
@@ -12,7 +12,7 @@ tags:
   - Blog
 ---
 
-![Image Object Detection](https://media.calebukle.com/uploads/buck-ai-predict.png)
+![Image Object Detection](https://s3.amazonaws.com/media.calebukle.com/uploads/buck-ai-predict.png)
 
 > Disclaimer: I am no Machine Learning, Deep Learning, and/or Artificial
 > Intelligence Expert. I take no responsibility if you end up making SkyNet.
@@ -68,7 +68,7 @@ So let's walk through how to use the service.
 1. Wait for everything to be created
 1. Start making your datasets!
 
-![New Project Screen](https://media.calebukle.com/uploads/new-resource-modal.png)
+![New Project Screen](https://s3.amazonaws.com/media.calebukle.com/uploads/new-resource-modal.png)
 
 You're all set to go and it's really that easy.
 
@@ -78,7 +78,7 @@ gives you a really rough idea about your model's performance. Also, it's a good
 way to generate code up to start scaffolding your project if other people are
 wanting to play around with the model.
 
-![After Training Metrics](https://media.calebukle.com/uploads/custom-ai-metrics.png)
+![After Training Metrics](https://s3.amazonaws.com/media.calebukle.com/uploads/custom-ai-metrics.png)
 
 From my limited internet reading, I've seen a recommendation of about 300 photos
 per classification you want to detect. which is a lot of photos. More data never
@@ -87,14 +87,14 @@ hurts in these cases!
 When you're ready you can do a full training session and limit the amount of
 training time. This is under _Advance Training_ option
 
-![Training Screen](https://media.calebukle.com/uploads/train-modal.png)
+![Training Screen](https://s3.amazonaws.com/media.calebukle.com/uploads/train-modal.png)
 
 When you're done training either via quick training or advance training you can
 export your training model via the "export" button. You'll receive a prompt to
 select the type of model and the format. I did General Compact and ONNX as
 that's what's preferred for ML.NET. But select what's best for you use cases.
 
-![Modal Export Types](https://media.calebukle.com/uploads/model-types.png)
+![Modal Export Types](https://s3.amazonaws.com/media.calebukle.com/uploads/model-types.png)
 
 Hopefully this helps out some people who were in the similar situation as me. I
 hope to be doing more machine learning content in the future. Have a great day

@@ -4,7 +4,7 @@ title: Blur Up/Fade In Images Without Gatsby
 description: Blurring up images is the act of creating a small image and inlining into a page's markup. The inline-image is stretched out to the original image size and a blur is applied. In the background, the full-sized image downloads and replaces the small blurry image. Since the small image is the same size, the page doesn't jump up or down when adding the image. Here is my implementation for a scully plugin, along with how to do it outside of a framework if desired.
 author: Caleb Ukle
 publish_date: 2020-04-27
-img: https://media.calebukle.com/uploads/2020/04/wk-UvyRivfCxl.gif
+img: https://s3.amazonaws.com/media.calebukle.com/uploads/2020/04/wk-UvyRivfCxl.gif
 tags:
   - Scully
   - Gatsby
@@ -12,7 +12,7 @@ tags:
   - Blog
 ---
 
-![Sample gif of blur up on Medium.com and for blur up on my site, blur up inception. We need to go deeper!](https://media.calebukle.com/uploads/2020/04/wk-jkhZPDE8oj.gif)
+![Sample gif of blur up on Medium.com and for blur up on my site, blur up inception. We need to go deeper!](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/04/wk-jkhZPDE8oj.gif)
 
 > You can check out the post in the blur up example gif
 > [here](https://blog.bitsrc.io/10-useful-angular-features-youve-probably-never-used-e9e33f5c35a7)
@@ -65,10 +65,10 @@ Alright, so making a 20px wide image is pretty straight forward with sharp.
  * @return {Promise<Buffer>}
  */
 async function resize(data) {
-  console.log("resizing");
-  return await sharp(data)
-    .resize(20) // size in px to change width
-    .toBuffer();
+	console.log('resizing');
+	return await sharp(data)
+		.resize(20) // size in px to change width
+		.toBuffer();
 }
 ```
 
@@ -87,8 +87,8 @@ to an array buffer for usage in this process
  * @return {Promise<AxiosResponse<any>>}
  */
 async function download(url) {
-  console.log("downloading");
-  return axios.get(url, { responseType: "arraybuffer" });
+	console.log('downloading');
+	return axios.get(url, { responseType: 'arraybuffer' });
 }
 ```
 
@@ -104,8 +104,9 @@ content
 ```html
 <!--example.html-->
 
-<span class="img-wrapper"
-      style="padding-bottom: SOME_PERCENT%; 
+<span
+	class="img-wrapper"
+	style="padding-bottom: SOME_PERCENT%; 
              position: relative; 
              bottom: 0; 
              left: 0; 
@@ -113,22 +114,21 @@ content
              background-size: cover;
              background-image: url('data:image/png;base64, BASE64_ENCODED_STRING');"
 >
-
-<img
-  class="img-sharp"
-  alt="some-alt"
-  title="some-title"
-  src="data:image/png;base64, BASE64_ENCODED_STRING"
-  srcset="https://SOMEIMAGE.PNG"
-  sizes="1080"
-  style="width: 100%; 
+	<img
+		class="img-sharp"
+		alt="some-alt"
+		title="some-title"
+		src="data:image/png;base64, BASE64_ENCODED_STRING"
+		srcset="https://SOMEIMAGE.PNG"
+		sizes="1080"
+		style="width: 100%; 
          height: 100%; 
          margin: 0; 
          vertical-align: middle; 
          position: absolute; 
          top: 0; 
          left: 0;"
-/>
+	/>
 </span>
 ```
 
@@ -152,8 +152,8 @@ First, we'll need to convert our small image into a base 64 string.
  * @return {string}
  */
 function toBase64(data) {
-  console.log("making base 64 image");
-  return Buffer.from(data).toString("base64");
+	console.log('making base 64 image');
+	return Buffer.from(data).toString('base64');
 }
 ```
 
@@ -175,10 +175,9 @@ it by 100. Here is that helper function.
  * @return {Promise<number>}
  */
 async function getImgPadding(data) {
-  console.log("getting metadata");
-  const { height, width } = await sharp(data)
-    .metadata();
-  return (height / width) * 100;
+	console.log('getting metadata');
+	const { height, width } = await sharp(data).metadata();
+	return (height / width) * 100;
 }
 ```
 
@@ -204,39 +203,39 @@ using Scully, it's just as easy to use this abstract representation.
  * @return {{children: [{tagName: string, props: {sizes: string, src: string, alt: string, style: string, title: string, srcset: string, class: string}}], tagName: string, props: {style: string, class: string}}}
  */
 function buildAst({ paddingBottom, b64, caption, imgUrl } = data) {
-  return {
-    tagName: "span",
-    props: {
-      class: "img-wrapper",
-      style: `padding-bottom: ${paddingBottom}%;
+	return {
+		tagName: 'span',
+		props: {
+			class: 'img-wrapper',
+			style: `padding-bottom: ${paddingBottom}%;
                  position: relative;
                  bottom: 0;
                  left: 0;
                  display: block;
                  background-size: cover;
                  background-image: url('data:image/png;base64,${b64}');`,
-    },
-    children: [
-      {
-        tagName: "img",
-        props: {
-          class: "img-sharp",
-          src: `data:image/png;base64,${b64}`,
-          alt: `${caption}`,
-          title: `${caption}`,
-          srcset: `${imgUrl}`,
-          sizes: "1080",
-          style: `width: 100%;
+		},
+		children: [
+			{
+				tagName: 'img',
+				props: {
+					class: 'img-sharp',
+					src: `data:image/png;base64,${b64}`,
+					alt: `${caption}`,
+					title: `${caption}`,
+					srcset: `${imgUrl}`,
+					sizes: '1080',
+					style: `width: 100%;
                       height: 100%;
                       margin: 0;
                       vertical-align: middle;
                       position: absolute;
                       top: 0;
                       left: 0;`,
-        },
-      },
-    ],
-  };
+				},
+			},
+		],
+	};
 }
 ```
 
@@ -253,7 +252,7 @@ If you were going to interpolate the values this is what it would look like
  * @return {{children: [{tagName: string, props: {sizes: string, src: string, alt: string, style: string, title: string, srcset: string, class: string}}], tagName: string, props: {style: string, class: string}}}
  */
 function buildMakrup({ paddingBottom, b64, caption, imgUrl } = data) {
-  return `<span class="img-wrapper"
+	return `<span class="img-wrapper"
                 style="padding-bottom: ${paddingBottom}%; 
                        position: relative; 
                        bottom: 0; 
@@ -288,16 +287,16 @@ The entire pipeline should look something like this
 ```js
 // blurUp.helper.plugin.js
 
-const axios = require("axios");
-const sharp = require("sharp");
+const axios = require('axios');
+const sharp = require('sharp');
 
 /**
  * @param {string} url
  * @return {Promise<AxiosResponse<any>>}
  */
 async function download(url) {
-  console.log("downloading");
-  return axios.get(url, { responseType: "arraybuffer" });
+	console.log('downloading');
+	return axios.get(url, { responseType: 'arraybuffer' });
 }
 
 /**
@@ -305,10 +304,8 @@ async function download(url) {
  * @return {Promise<Buffer>}
  */
 async function resize(data) {
-  console.log("resizing");
-  return sharp(data)
-    .resize(20)
-    .toBuffer();
+	console.log('resizing');
+	return sharp(data).resize(20).toBuffer();
 }
 
 /**
@@ -316,8 +313,8 @@ async function resize(data) {
  * @return {string}
  */
 function toBase64(data) {
-  console.log("making base 64 image");
-  return Buffer.from(data).toString("base64");
+	console.log('making base 64 image');
+	return Buffer.from(data).toString('base64');
 }
 
 /**
@@ -325,10 +322,9 @@ function toBase64(data) {
  * @return {Promise<number>}
  */
 async function getImgPadding(data) {
-  console.log("getting metadata");
-  const { height, width } = await sharp(data)
-    .metadata();
-  return (height / width) * 100;
+	console.log('getting metadata');
+	const { height, width } = await sharp(data).metadata();
+	return (height / width) * 100;
 }
 
 /**
@@ -339,56 +335,56 @@ async function getImgPadding(data) {
  * @return {{children: [{tagName: string, props: {sizes: string, src: string, alt: string, style: string, title: string, srcset: string, class: string}}], tagName: string, props: {style: string, class: string}}}
  */
 function buildAst({ paddingBottom, b64, caption, imgUrl } = data) {
-  const markup = {
-    tagName: "span",
-    props: {
-      class: "img-wrapper",
-      style: `padding-bottom: ${paddingBottom}%;
+	const markup = {
+		tagName: 'span',
+		props: {
+			class: 'img-wrapper',
+			style: `padding-bottom: ${paddingBottom}%;
              position: relative;
              bottom: 0;
              left: 0;
              display: block;
              background-size: cover;
              background-image: url('data:image/png;base64,${b64}');`,
-    },
-    children: [
-      {
-        tagName: "img",
-        props: {
-          class: "img-sharp",
-          src: `data:image/png;base64,${b64}`,
-          alt: `${caption}`,
-          title: `${caption}`,
-          srcset: `${imgUrl}`,
-          sizes: "1080",
-          style: `width: 100%;
+		},
+		children: [
+			{
+				tagName: 'img',
+				props: {
+					class: 'img-sharp',
+					src: `data:image/png;base64,${b64}`,
+					alt: `${caption}`,
+					title: `${caption}`,
+					srcset: `${imgUrl}`,
+					sizes: '1080',
+					style: `width: 100%;
                   height: 100%;
                   margin: 0;
                   vertical-align: middle;
                   position: absolute;
                   top: 0;
                   left: 0;`,
-        },
-      },
-    ],
-  };
-  return markup;
+				},
+			},
+		],
+	};
+	return markup;
 }
 
 async function newImgMarkUp(imgUrl, caption) {
-  const { data } = await download(imgUrl);
+	const { data } = await download(imgUrl);
 
-  if (!data) {
-    throw Error("no image found");
-  }
+	if (!data) {
+		throw Error('no image found');
+	}
 
-  const resized = await resize(data);
+	const resized = await resize(data);
 
-  const b64 = toBase64(resized);
+	const b64 = toBase64(resized);
 
-  const paddingBottom = await getImgPadding(resized);
+	const paddingBottom = await getImgPadding(resized);
 
-  return buildAst({ b64, paddingBottom, caption, imgUrl });
+	return buildAst({ b64, paddingBottom, caption, imgUrl });
 }
 
 module.exports.newImgMarkUp = newImgMarkUp;
@@ -418,35 +414,35 @@ Now let's apply some JS to allow for a nice transition.
 const imageWrappers = document.querySelectorAll(`.img-wrapper`);
 
 for (let i = 0; i < imageWrappers.length; i++) {
-  const imgWrap = imageWrappers[i];
+	const imgWrap = imageWrappers[i];
 
-  const imgEl = imgWrap.querySelector("img");
+	const imgEl = imgWrap.querySelector('img');
 
-  const onImageComplete = () => {
-    imgEl.style.opacity = 1;
-    imgEl.style.filter = null;
-    imgEl.style.color = `inherit`;
-    imgEl.style.boxShadow = `inset 0 0 0 400px white`;
-    imgEl.removeEventListener("load", onImageLoad);
-    imgEl.removeEventListener("error", onImageComplete);
-  };
+	const onImageComplete = () => {
+		imgEl.style.opacity = 1;
+		imgEl.style.filter = null;
+		imgEl.style.color = `inherit`;
+		imgEl.style.boxShadow = `inset 0 0 0 400px white`;
+		imgEl.removeEventListener('load', onImageLoad);
+		imgEl.removeEventListener('error', onImageComplete);
+	};
 
-  const onImageLoad = () => {
-    imgEl.style.transition = `opacity .4s cubic-bezier(0.4, 0.0, 0.2, 1)`;
+	const onImageLoad = () => {
+		imgEl.style.transition = `opacity .4s cubic-bezier(0.4, 0.0, 0.2, 1)`;
 
-    onImageComplete();
-  };
+		onImageComplete();
+	};
 
-  imgEl.style.opacity = 0;
-  imgEl.style.filter = `blur(50px)`;
-  // make safari have crisp edges
-  imgEl.style.transform = `scale(1)`;
-  imgEl.addEventListener("load", onImageLoad);
-  imgEl.addEventListener("error", onImageComplete);
+	imgEl.style.opacity = 0;
+	imgEl.style.filter = `blur(50px)`;
+	// make safari have crisp edges
+	imgEl.style.transform = `scale(1)`;
+	imgEl.addEventListener('load', onImageLoad);
+	imgEl.addEventListener('error', onImageComplete);
 
-  if (imgEl.complete) {
-    onImageComplete();
-  }
+	if (imgEl.complete) {
+		onImageComplete();
+	}
 }
 ```
 
@@ -482,28 +478,28 @@ Let's make a placeholder function and register the plugin
 ```js
 // blurUp.plugin.js
 
-const { registerPlugin } = require("@scullyio/scully");
-const { log, yellow } = require("@scullyio/scully/utils/log");
+const { registerPlugin } = require('@scullyio/scully');
+const { log, yellow } = require('@scullyio/scully/utils/log');
 
-const jsdom = require("jsdom");
+const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const { newImgMarkUp } = require("./blurUp.healper.plugin");
+const { newImgMarkUp } = require('./blurUp.healper.plugin');
 
 /**
  * @param {string} html
  * @return {Promise<string>}
  */
 const blurUp = async (html) => {
-  // we'll be using this in a minute
-  const dom = new JSDOM(html);
+	// we'll be using this in a minute
+	const dom = new JSDOM(html);
 
-  return dom.serialize();
+	return dom.serialize();
 };
 
 const validator = async (conf) => [];
 
-registerPlugin("render", "blurUp", blurUp, validator);
+registerPlugin('render', 'blurUp', blurUp, validator);
 module.exports.blurUp = blurUp;
 ```
 
@@ -516,22 +512,22 @@ In the config file, we are going to register a new render plugin like so
 ```js
 // scully.{your-site}.config.js
 
-require("./plugins/blurUp.plugin.js"); // or where ever your plugin in stored
+require('./plugins/blurUp.plugin.js'); // or where ever your plugin in stored
 
 exports.config = {
-  projectRoot: "./src",
-  projectName: "your-site-com",
-  outDir: "./dist/static",
-  routes: {
-    // Make sure your paths are correct
-    "/blog/:slug": {
-      type: "contentFolder",
-      postRenderers: ["blurUp"], // blur up plugin goes here
-      slug: {
-        folder: "./blog",
-      },
-    },
-  },
+	projectRoot: './src',
+	projectName: 'your-site-com',
+	outDir: './dist/static',
+	routes: {
+		// Make sure your paths are correct
+		'/blog/:slug': {
+			type: 'contentFolder',
+			postRenderers: ['blurUp'], // blur up plugin goes here
+			slug: {
+				folder: './blog',
+			},
+		},
+	},
 };
 ```
 
@@ -547,56 +543,56 @@ Now let's parse the AST to give our pages our blur up effect. Back in our
 ```js
 // blurUp.config.js
 
-const { registerPlugin } = require("@scullyio/scully");
-const { log, yellow } = require("@scullyio/scully/utils/log");
+const { registerPlugin } = require('@scullyio/scully');
+const { log, yellow } = require('@scullyio/scully/utils/log');
 
-const jsdom = require("jsdom");
+const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const { newImgMarkUp } = require("./blurUp.healper.plugin");
+const { newImgMarkUp } = require('./blurUp.healper.plugin');
 
 /**
  * @param {string} html
  * @return {Promise<string>}
  */
 const blurUp = async (html) => {
-  const dom = new JSDOM(html);
-  const { window } = dom;
-  const imgs = window.document.querySelectorAll("img");
+	const dom = new JSDOM(html);
+	const { window } = dom;
+	const imgs = window.document.querySelectorAll('img');
 
-  log(yellow(`found ${imgs.length} images`));
-  for (let i = 0; i < imgs.length; i++) {
-    const mediaUrl = imgs[i].src;
-    // use a default if no alt is found
-    const caption = imgs[i].alt || "Media by Caleb Ukle";
+	log(yellow(`found ${imgs.length} images`));
+	for (let i = 0; i < imgs.length; i++) {
+		const mediaUrl = imgs[i].src;
+		// use a default if no alt is found
+		const caption = imgs[i].alt || 'Media by Caleb Ukle';
 
-    const markupAST = await newImgMarkUp(mediaUrl, caption);
-    const span = window.document.createElement(markupAST.tagName);
-    span.classList.add(markupAST.props.class);
-    span.style = markupAST.props.style;
+		const markupAST = await newImgMarkUp(mediaUrl, caption);
+		const span = window.document.createElement(markupAST.tagName);
+		span.classList.add(markupAST.props.class);
+		span.style = markupAST.props.style;
 
-    markupAST.children.forEach((c) => {
-      const el = window.document.createElement(c.tagName);
-      el.classList.add(c.props.class);
-      el.style = c.props.style;
-      el.src = c.props.src;
-      el.srcset = c.props.srcset;
-      el.alt = c.props.alt;
-      el.title = c.props.title;
-      el.sizes = c.props.sizes;
+		markupAST.children.forEach((c) => {
+			const el = window.document.createElement(c.tagName);
+			el.classList.add(c.props.class);
+			el.style = c.props.style;
+			el.src = c.props.src;
+			el.srcset = c.props.srcset;
+			el.alt = c.props.alt;
+			el.title = c.props.title;
+			el.sizes = c.props.sizes;
 
-      span.appendChild(el);
-    });
+			span.appendChild(el);
+		});
 
-    imgs[i].replaceWith(span);
-  }
+		imgs[i].replaceWith(span);
+	}
 
-  return dom.serialize();
+	return dom.serialize();
 };
 
 const validator = async (conf) => [];
 
-registerPlugin("render", "blurUp", blurUp, validator);
+registerPlugin('render', 'blurUp', blurUp, validator);
 module.exports.blurUp = blurUp;
 ```
 
@@ -631,32 +627,28 @@ Your directive should look something like this
 // blur-up.directive.ts
 
 import {
-  AfterViewChecked,
-  Directive,
-  ElementRef,
-  OnDestroy,
-  Renderer2,
-} from "@angular/core";
+	AfterViewChecked,
+	Directive,
+	ElementRef,
+	OnDestroy,
+	Renderer2,
+} from '@angular/core';
 
 @Directive({
-  selector: "[appBlurUp]",
+	selector: '[appBlurUp]',
 })
 export class BlurUpDirective implements AfterViewChecked, OnDestroy {
-  private listeners = [];
+	private listeners = [];
 
-  constructor(
-    private render: Renderer2,
-    private el: ElementRef,
-  ) {
-  }
+	constructor(private render: Renderer2, private el: ElementRef) {}
 
-  ngAfterViewChecked(): void {
-    // Attach event listeners
-  }
+	ngAfterViewChecked(): void {
+		// Attach event listeners
+	}
 
-  ngOnDestroy(): void {
-    // Clean up logic
-  }
+	ngOnDestroy(): void {
+		// Clean up logic
+	}
 }
 ```
 
@@ -724,8 +716,8 @@ Now to use in our page template.
 ```html
 <!--your-template.component.html-->
 
-<section class="post-content" appBlurUp>  
-  <scully-content></scully-content>
+<section class="post-content" appBlurUp>
+	<scully-content></scully-content>
 </section>
 ```
 

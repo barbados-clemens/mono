@@ -1,0 +1,31 @@
+---
+import Tags from './Tags.astro';
+
+export interface Props {
+	tags: string[];
+	title: string;
+	description: string;
+	link: string;
+	publish_date: string;
+	author: string;
+}
+const { title, description, link, publish_date, author, tags } = Astro.props;
+---
+
+<section class="text-slate-100 py-4">
+	<header class="my-3">
+		<h3 class="text-xl font-bold"><a href={link}>{title}</a></h3>
+		<Tags tags={tags} />
+		<p class="text-slate-500/80">By {author} at {publish_date}</p>
+	</header>
+	<p class="my-2 text-slate-400">
+		{
+			description.length > 100
+				? `${description.slice(0, 100)} ...`
+				: description
+		}
+	</p>
+	<a class="underline decoration-solid hover:decoration-wavy" href={link}
+		>Read More</a
+	>
+</section>
