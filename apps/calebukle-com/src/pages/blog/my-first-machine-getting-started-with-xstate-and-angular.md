@@ -4,7 +4,7 @@ title: My First Machine, Getting Started with XState and Angular
 description: I have long been interested in XState, a JavaScript state machines and statecharts library. Up until this point I've not found a reason to use a state management library, but XState has really piqued my interest.
 author: Caleb Ukle
 publish_date: 2020-09-11T05:00:15.378Z
-img: https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/bill-oxford--machine-unsplash.jpg
+img: https://cdn.doubleuideas.com/blog/first-machine/bill-oxford--machine-unsplash.jpg?auto=format
 tags:
   - XState
   - Angular
@@ -232,7 +232,7 @@ visualizer
 }
 ```
 
-![Search event via state chart visulizer](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/wk-x7LXqKPq9w.png)
+![Search event via state chart visulizer](https://cdn.doubleuideas.com/blog/first-machine/event-panel.png?auto=format)
 
 After sending that event we should have the `DATA` event trigger that contains
 the _search results_
@@ -248,7 +248,7 @@ the _search results_
 }
 ```
 
-![Data event via state chart visulizer](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/wk-nQqXZdTYR4.png)
+![Data event via state chart visulizer](https://cdn.doubleuideas.com/blog/first-machine/event-panel-with-data.png?auto=format)
 
 ### Prevent Invalid Query
 
@@ -476,4 +476,4 @@ Other parting thoughts.
 1. UI/UX is simplified because the current state is known. Derive views from
    that info.
 
-![Actually app this machine is used for](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/09/wk-7gcFOovRoe.gif)
+![Actually app this machine is used for](https://cdn.doubleuideas.com/blog/first-machine/search-demo.gif?auto=format)

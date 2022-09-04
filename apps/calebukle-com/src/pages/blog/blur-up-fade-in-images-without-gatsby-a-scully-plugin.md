@@ -4,7 +4,7 @@ title: Blur Up/Fade In Images Without Gatsby
 description: Blurring up images is the act of creating a small image and inlining into a page's markup. The inline-image is stretched out to the original image size and a blur is applied. In the background, the full-sized image downloads and replaces the small blurry image. Since the small image is the same size, the page doesn't jump up or down when adding the image. Here is my implementation for a scully plugin, along with how to do it outside of a framework if desired.
 author: Caleb Ukle
 publish_date: 2020-04-27
-img: https://s3.amazonaws.com/media.calebukle.com/uploads/2020/04/wk-UvyRivfCxl.gif
+img: https://cdn.doubleuideas.com/blog/blur-up-images/blur-up-example.gif?format=auto
 tags:
   - Scully
   - Gatsby
@@ -12,7 +12,7 @@ tags:
   - Blog
 ---
 
-![Sample gif of blur up on Medium.com and for blur up on my site, blur up inception. We need to go deeper!](https://s3.amazonaws.com/media.calebukle.com/uploads/2020/04/wk-jkhZPDE8oj.gif)
+![Sample gif of blur up on Medium.com and for blur up on my site, blur up inception. We need to go deeper!](https://cdn.doubleuideas.com/blog/blur-up-images/blur-up-example.gif?format=auto)
 
 > You can check out the post in the blur up example gif
 > [here](https://blog.bitsrc.io/10-useful-angular-features-youve-probably-never-used-e9e33f5c35a7)

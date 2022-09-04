@@ -4,7 +4,7 @@ title: Mapbox, Deck.gl, and Angular for Realtime Data Visualization
 description: Recently, I was inspired by Jeff from fireship.io with his video over data visualization using deck.gl and google maps. I wanted to tinker with using a framework (angular) and Mapbox to make a realtime data visualization.
 author: Caleb Ukle
 publish_date: 2019-11-10
-img: https://s3.amazonaws.com/media.calebukle.com/uploads/update-viz.gif
+img: https://cdn.doubleuideas.com/blog/mapbox-deckgl-getting-started/update-viz.gif?auto=format
 tags:
   - Angular
   - Mapbox
@@ -15,7 +15,7 @@ tags:
 
 [Link to fireship.io tutorial](https://fireship.io/lessons/deckgl-google-maps-tutorial/)
 
-![Datapoints Updating](https://s3.amazonaws.com/media.calebukle.com/uploads/update-viz.gif)
+![Datapoints Updating](https://cdn.doubleuideas.com/blog/mapbox-deckgl-getting-started/update-viz.gif?auto=format)
 
 > Disclaimer: I've spent around 5 hours exploring deck.gl for a singular purpose
 > of trying to get data points to render from a stream of new data. so I might
