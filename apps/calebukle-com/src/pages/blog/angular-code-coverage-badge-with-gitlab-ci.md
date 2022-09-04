@@ -131,6 +131,11 @@ easy and simple to do. You can follow along with the build steps.
 
 - Create a build artifact of the public/ directory
 
+1. something
+1. another
+1. for sure
+   1. anc
+
 The reason for the Alpine image is it’s so small; therefore, fewer pipeline
 minutes are spent downloading larger images. All we need to do is move one
 directory to another. The coverage/ directory is a build artifact from the

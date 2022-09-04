@@ -1,4 +1,5 @@
 ---
+import './blog.css';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -27,13 +28,15 @@ const editUrl = `${GITHUB_BASE_PAGE_URL}/${Astro.url.pathname}.md`;
 		<BaseHead title={content.title} description={content.description} />
 	</head>
 
-	<body class="bg-slate-900 text-slate-100 max-w-screen-sm px-6 pt-8 mx-auto">
+	<body
+		class="bg-slate-900 text-slate-300/90 max-w-screen-lg px-6 pt-8 mx-auto"
+	>
 		<nav class="pb-16">
 			<Back />
 		</nav>
 		<main>
-			<article class="flex gap-1 flex-col">
-				<h1 class="text-2xl">{content.title}</h1>
+			<article class="blog-content flex gap-1 flex-col">
+				<h1>{content.title}</h1>
 				{content.tags && <Tags tags={content.tags} />}
 				{
 					content.formatted_publish_date && (
@@ -50,7 +53,8 @@ const editUrl = `${GITHUB_BASE_PAGE_URL}/${Astro.url.pathname}.md`;
 				<hr />
 				<slot />
 			</article>
+
+			<Footer editUrl={editUrl} />
 		</main>
-		<Footer editUrl={editUrl} />
 	</body>
 </html>
