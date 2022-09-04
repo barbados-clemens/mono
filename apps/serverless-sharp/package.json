@@ -1,0 +1,27 @@
+{
+  "name": "serverless-sharp",
+  "description": "A Lambda function for performing on-demand image edits and manipulations.",
+  "author": {
+    "name": "Venveo",
+    "url": "https://www.venveo.com",
+    "email": "info@venveo.com"
+  },
+  "scripts": {
+    "test": "jest",
+    "docs": "serve ./docs",
+    "build": "sls package",
+    "deploy": "sls deploy"
+  },
+  "version": "2.1.1",
+  "private": false,
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "aws-sdk": "^2.668.0",
+    "aws-sdk-mock": "^5.1.0",
+    "jest": "^26.0.1",
+    "serverless": "^2.30.1",
+    "sharp": "0.28.0",
+    "standard": "^16.0.3"
+  }
+}

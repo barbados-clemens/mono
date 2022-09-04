@@ -1,0 +1,115 @@
+service: ${self:custom.settings.serviceName}
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  timeout: 10
+  stage: ${opt:stage,'dev'}
+  region: ${self:custom.settings.region}
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:GetObject"
+          Resource: "arn:aws:s3:::${self:custom.settings.environment.SOURCE_BUCKET}/*"
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
+
+layers:
+  sharp:
+    path: lambdaLayers/SharpLayer # required, path to layer contents on disk
+    name: ${self:provider.stage}-sharp # optional, Deployed Lambda layer name
+    package:
+      include:
+        - node_modules/**
+    description: sharp@0.27.2
+    compatibleRuntimes:
+      - nodejs14.x
+    licenseInfo: Apache License 2.0
+    retain: false
+
+resources:
+  Conditions:
+    CustomDomain: !Not [!Equals ["${self:custom.settings.environment.CUSTOM_DOMAIN, ''}", ""]]
+    ArnCertificate: !Not [!Equals ["${self:custom.settings.environment.ACM_CERTIFICATE_ARN, ''}", ""]]
+    CreateCertificate: !And
+      - !Not [!Equals ["${self:custom.settings.environment.CUSTOM_DOMAIN, ''}", ""]]
+      - !Equals ["${self:custom.settings.environment.ACM_CERTIFICATE_ARN, ''}", ""]
+  Resources:
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Comment: Cloudfront distribution for serverless image handler
+          DefaultCacheBehavior:
+            TargetOriginId: ApiGateway
+            ViewerProtocolPolicy: 'redirect-to-https'
+            DefaultTTL: 30
+            ForwardedValues:
+              Headers:
+                - 'Accept'
+              QueryString: true
+          Enabled: true
+          Origins:
+            - Id: ApiGateway
+              DomainName:
+                Fn::Join:
+                  - "."
+                  - - Ref: ApiGatewayRestApi
+                    - execute-api.${self:custom.settings.region}.amazonaws.com
+              OriginPath: "/${self:provider.stage}"
+              CustomOriginConfig:
+                HTTPPort: 80
+                HTTPSPort: 443
+                OriginProtocolPolicy: https-only
+          Aliases:
+            Fn::If:
+            - CustomDomain
+            - - '${self:custom.settings.environment.CUSTOM_DOMAIN, self:custom.empty}'
+            - Ref: AWS::NoValue
+          ViewerCertificate:
+            Fn::If:
+              - CreateCertificate
+              - AcmCertificateArn: !If
+                - ArnCertificate
+                - self:custom.settings.environment.ACM_CERTIFICATE_ARN
+                - Ref: Certificate
+                SslSupportMethod: 'sni-only'
+                MinimumProtocolVersion: 'TLSv1'
+              - Ref: AWS::NoValue
+    Certificate:
+      Type: AWS::CertificateManager::Certificate
+      Condition: CreateCertificate
+      Properties:
+        ValidationMethod: DNS
+        DomainName: '${self:custom.settings.environment.CUSTOM_DOMAIN}'
+  Outputs:
+    CloudFrontDistributionOutput:
+      Value:
+        'Fn::GetAtt': [ CloudFrontDistribution, DomainName ]
+functions:
+  index:
+    package:
+      individually: true
+      exclude:
+        - node_modules/**
+        - docs/**
+        - .idea/**
+        - bin/darwin/**
+        - coverage/**
+    handler: src/index.handler
+    layers:
+      - { Ref: SharpLambdaLayer }
+    events:
+      - http:
+          path: /{any+}
+          method: get
+          response:
+            contentHandling: CONVERT_TO_BINARY
+    environment: ${self:custom.settings.environment}
+custom:
+  empty: ''
+  settingsFilePath: ${opt:settings,'./settings.yml'}
+  settings: ${file(${self:custom.settingsFilePath}):stages.${self:provider.stage}}
