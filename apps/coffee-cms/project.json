@@ -1,6 +1,6 @@
 {
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/calebukle-com/src",
+	"sourceRoot": "apps/coffee-cms",
 	"projectType": "application",
 	"targets": {
 		"build": {
