@@ -1,0 +1,41 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { BlogPost, SITE_DESCRIPTION, SITE_TITLE } from '../config';
+
+export interface Props {
+	posts: BlogPost[];
+	title?: string;
+	description?: string;
+}
+const {
+	posts,
+	title = SITE_TITLE,
+	description = SITE_DESCRIPTION,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en-us" class="dark">
+	<head>
+		<BaseHead {title} {description} />
+	</head>
+	<body class="bg-slate-900 max-w-screen-sm px-6 pt-8 mx-auto">
+		<slot name="before-content" />
+		<main class="max-w-screen-sm border-t-2 border-gray-300/80">
+			{
+				posts.map((p) => (
+					<BlogCard
+						title={p.frontmatter.title}
+						description={p.frontmatter.description}
+						link={p.url}
+						author={p.frontmatter.author}
+						publish_date={p.frontmatter.formatted_publish_date}
+						tags={p.frontmatter.tags || []}
+					/>
+				))
+			}
+			<slot name="after-content" />
+		</main>
+	</body>
+</html>

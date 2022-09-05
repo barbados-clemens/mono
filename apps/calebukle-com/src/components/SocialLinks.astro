@@ -7,10 +7,8 @@ import Discogs from './icons/Discogs.astro';
 import ExternalLink from './icons/ExternalLink.astro';
 import Email from './icons/Email.astro';
 import Tooltip from './Tooltip.astro';
+import { socialLinks } from '../config';
 
-export interface Props {
-	links: { url: string; title: string }[];
-}
 const socialAppIcons = new Map([
 	['github.com', GitHub],
 	['twitter.com', Twitter],
@@ -19,7 +17,7 @@ const socialAppIcons = new Map([
 	['discogs.com', Discogs],
 ]);
 
-const links = Astro.props.links?.map((link) => {
+const links = socialLinks.map((link) => {
 	const url = new URL(link.url);
 	let Icon = ExternalLink;
 	if (url.protocol === 'mailto:') {
