@@ -3,6 +3,7 @@
 	"version": 2,
 	"projects": {
 		"calebukle-com": "apps/calebukle-com",
+		"coffee-cms": "apps/coffee-cms",
 		"data-access-coffee": "libs/data-access-coffee"
 	}
 }

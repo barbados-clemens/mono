@@ -1,0 +1,35 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/calebukle-com/src",
+	"projectType": "application",
+	"targets": {
+		"build": {
+			"executor": "nx:run-commands",
+			"outputs": ["dist/apps/coffee-cms"],
+			"options": {
+				"commands": ["sanity build ../../dist/apps/coffee-cms --yes"],
+				"parallel": false,
+				"cwd": "apps/coffee-cms"
+			}
+		},
+		"serve": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": ["sanity start"],
+				"parallel": false,
+				"cwd": "apps/coffee-cms"
+			}
+		},
+		"deploy": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["build", "^build"],
+			"options": {
+				"commands": [
+					"sanity deploy ../../dist/apps/coffee-cms --no-build --yes"
+				],
+				"parallel": false,
+				"cwd": "apps/coffee-cms"
+			}
+		}
+	}
+}
