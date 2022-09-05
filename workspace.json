@@ -2,6 +2,7 @@
 	"$schema": "./node_modules/nx/schemas/workspace-schema.json",
 	"version": 2,
 	"projects": {
-		"calebukle-com": "apps/calebukle-com"
+		"calebukle-com": "apps/calebukle-com",
+		"data-access-coffee": "libs/data-access-coffee"
 	}
 }

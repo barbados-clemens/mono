@@ -1,0 +1,75 @@
+---
+import Footer from '../components/Footer.astro';
+import BasePageLayout from '../layouts/BasePageLayout.astro';
+import { GITHUB_BASE_PAGE_URL } from '../config';
+import { getBrews, getRelativeDateForBrew } from '@mono/data-access-coffee';
+import Back from '../components/Back.astro';
+const today = new Date();
+const THIRTY_DAYS_AGO = 1000 * 60 * 60 * 24 * 30;
+const brews = await getBrews({
+	before: today.toISOString(),
+	after: new Date(today.getTime() - THIRTY_DAYS_AGO).toISOString(),
+}).then((r) =>
+	r.map((b) => ({
+		...b,
+		formatted_brewed_on: getRelativeDateForBrew(b.brewedOn),
+		tags: [`1:${Math.round(b.out / b.in)}`, ...b.equipment],
+	}))
+);
+
+const editUrl = `${GITHUB_BASE_PAGE_URL}/coffee.astro`;
+---
+
+<BasePageLayout>
+	<main class="mt-6 grid place-items-center">
+		<nav class="pb-16 self-start">
+			<Back />
+		</nav>
+		<ol class="ml-4 relative border-l border-gray-200 gap-4">
+			{
+				brews.map((brew) => (
+					<li>
+						<div class="sticky top-4">
+							<div class="absolute w-5 h-5 bg-gray-200 rounded-full -left-2.5 border border-white" />
+							<span class="text-white leading-none lg:-ml-[120px]">
+								{brew.formatted_brewed_on}
+							</span>
+						</div>
+						<section class="bg-white m-8 mt-0 p-8 rounded drop-shadow-md hover:drop-shadow-xl grid md:grid-cols-2 gap-4 ">
+							<header class="col-span-full">
+								<h3 class="text-2xl">
+									<a class="underline" href={brew.brewedWith.beans.url}>
+										{brew.brewedWith.beans.name} by{' '}
+										{brew.brewedWith.beans.roaster}{' '}
+									</a>
+								</h3>
+							</header>
+							<img
+								class="hover:scale-105 transition-all ease-in-out rounded"
+								width={400}
+								height={400}
+								src={`${brew.brewPic.asset.url}?auto=format&w=500&h=500&fit=crop`}
+								alt={brew.brewPic.asset.altText}
+							/>
+
+							<div>
+								<p class="flex flex-wrap gap-4 py-4">
+									{brew.tags.map((t) => (
+										<span>{t}</span>
+									))}
+								</p>
+							</div>
+							{/*<img*/}
+							{/*  width={400}*/}
+							{/*  height={400}*/}
+							{/*  src={`${props.brewedWith.beans.image.asset.url}?auto=format&w=500&h=500&fit=crop`}*/}
+							{/*  alt={props.brewedWith.beans.image.asset.altText}*/}
+							{/*/>*/}
+						</section>
+					</li>
+				))
+			}
+		</ol>
+    <Footer {editUrl} />
+	</main>
+</BasePageLayout>

@@ -6,6 +6,13 @@
 		"build": {
 			"executor": "nx:run-commands",
 			"outputs": ["dist/apps/calebukle-com"],
+			"inputs": [
+				"prod",
+				"^prod",
+				{
+					"runtime": "node tools/nx-ignore/sanity-coffee-runtime-hash.js"
+				}
+			],
 			"options": {
 				"commands": ["astro build"],
 				"parallel": false,
