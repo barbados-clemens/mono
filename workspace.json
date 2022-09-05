@@ -4,6 +4,7 @@
 	"projects": {
 		"calebukle-com": "apps/calebukle-com",
 		"coffee-cms": "apps/coffee-cms",
-		"data-access-coffee": "libs/data-access-coffee"
+		"data-access-coffee": "libs/data-access-coffee",
+		"image-resizer": "apps/image-resizer"
 	}
 }

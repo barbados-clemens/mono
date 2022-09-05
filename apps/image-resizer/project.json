@@ -1,0 +1,28 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/image-resizer/src",
+	"projectType": "application",
+	"targets": {
+		"deploy": {
+			"executor": "nx:run-commands",
+			"dependsOn": ["build", "^build"],
+			"options": {
+				"parallel": false,
+				"cwd": "apps/image-resizer"
+			},
+			"defaultConfiguration": "development",
+			"configurations": {
+				"production": {
+					"commands": [
+						"serverless deploy list --stage=prod --settings=settings.yml --verbose"
+					]
+				},
+				"development": {
+					"commands": [
+						"serverless deploy list --stage=dev --settings=settings.yml --verbose"
+					]
+				}
+			}
+		}
+	}
+}
