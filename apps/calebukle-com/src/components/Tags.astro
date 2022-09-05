@@ -6,7 +6,7 @@ export interface Props {
 const { tags } = Astro.props;
 ---
 
-<div class="flex gap-2">
+<div class="tags flex gap-2">
 	{
 		tags.map((t) => (
 			<a href={`/tag/${t}`} class="text-gray-500 font-bold">

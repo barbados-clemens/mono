@@ -25,7 +25,7 @@ const editUrl = `${GITHUB_BASE_PAGE_URL}/${Astro.url.pathname}.md`;
 <!DOCTYPE html>
 <html lang="en-us" class="dark">
 	<head>
-		<BaseHead title={content.title} description={content.description} />
+		<BaseHead title={content.title} description={content.description} image={content.img} />
 	</head>
 
 	<body
@@ -36,8 +36,8 @@ const editUrl = `${GITHUB_BASE_PAGE_URL}/${Astro.url.pathname}.md`;
 		</nav>
 		<main>
 			<article class="blog-content flex gap-1 flex-col">
-				<h1>{content.title}</h1>
 				{content.tags && <Tags tags={content.tags} />}
+				<h1>{content.title}</h1>
 				{
 					content.formatted_publish_date && (
 						<time>{content.formatted_publish_date}</time>
