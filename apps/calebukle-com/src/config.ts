@@ -1,6 +1,6 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
-interface BlogPost {
+export interface BlogPost {
 	frontmatter: Frontmatter;
 	file: string;
 	url: string;
@@ -50,3 +50,12 @@ export function normalizePosts(posts: BlogPost[]): BlogPost[] {
 
 export const GITHUB_BASE_PAGE_URL =
 	'https://github.com/barbados-clemens/mono/tree/main/apps/calebukle-com/src/pages/';
+export const socialLinks = [
+	{ title: 'Twitter', url: 'https://twitter.com/cu_galaxy' },
+	{ title: 'GitHub', url: 'https://github.com/barbados-clemens' },
+	{ title: 'LinkedIn', url: 'https://www.linkedin.com/in/caleb-ukle/' },
+	{
+		title: 'Discogs',
+		url: 'https://www.discogs.com/user/Barbados_Clemens/collection',
+	},
+];

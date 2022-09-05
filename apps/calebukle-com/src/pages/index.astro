@@ -11,44 +11,20 @@ import {
 	GITHUB_BASE_PAGE_URL,
 } from '../config';
 import { basename } from 'path';
+import BlogListLayout from '../layouts/BlogListLayout.astro';
 const posts = normalizePosts(await Astro.glob('./**/*.{md,mdx}'));
-const socialLinks = [
-	{ title: 'Twitter', url: 'https://twitter.com/cu_galaxy' },
-	{ title: 'GitHub', url: 'https://github.com/barbados-clemens' },
-	{ title: 'LinkedIn', url: 'https://www.linkedin.com/in/caleb-ukle/' },
-	{
-		title: 'Discogs',
-		url: 'https://www.discogs.com/user/Barbados_Clemens/collection',
-	},
-];
 const editUrl = `${GITHUB_BASE_PAGE_URL}/${basename(import.meta.url)}`;
 ---
 
-<!DOCTYPE html>
-<html lang="en-us" class="dark">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body class="bg-gray-900">
-		<Header title={SITE_TITLE} description={SITE_DESCRIPTION}>
-			<nav class="py-8 flex gap-2 place-content-center">
-				<SocialLinks links={socialLinks} />
-			</nav>
-		</Header>
-		<main class="max-w-screen-sm mx-auto pt-8 border-t-2 border-gray-300/80">
-			{
-				posts.map((p) => (
-					<BlogCard
-						title={p.frontmatter.title}
-						description={p.frontmatter.description}
-						link={p.url}
-						author={p.frontmatter.author}
-						publish_date={p.frontmatter.formatted_publish_date}
-						tags={p.frontmatter.tags || []}
-					/>
-				))
-			}
-			<Footer editUrl={editUrl} />
-		</main>
-	</body>
-</html>
+<BlogListLayout {posts} title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<Header
+		slot="before-content"
+		title={SITE_TITLE}
+		description={SITE_DESCRIPTION}
+	>
+		<nav class="py-8 flex gap-2 place-content-center">
+			<SocialLinks />
+		</nav>
+	</Header>
+	<Footer slot="after-content" {editUrl} />
+</BlogListLayout>

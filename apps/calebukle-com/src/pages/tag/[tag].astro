@@ -1,0 +1,42 @@
+---
+import Back from '../../components/Back.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import Footer from '../../components/Footer.astro';
+import SocialLinks from '../../components/SocialLinks.astro';
+import { normalizePosts, GITHUB_BASE_PAGE_URL } from '../../config';
+import BlogListLayout from '../../layouts/BlogListLayout.astro';
+
+export async function getStaticPaths() {
+	const allPosts = normalizePosts(await Astro.glob('../**/*.{md,mdx}'));
+	const allTags = new Set<string>();
+
+	for (const tags of allPosts.map((p) => p.frontmatter.tags)) {
+		if (tags) {
+			tags.forEach((tag) => allTags.add(tag));
+		}
+	}
+	return [...allTags].map((tag) => ({ params: { tag } }));
+}
+const params = Astro.params as { tag: string };
+const allPosts = normalizePosts(await Astro.glob('../**/*.{md,mdx}'));
+const postsWithTag = allPosts.filter(
+	(post) => post.frontmatter.tags && post.frontmatter.tags.includes(params.tag)
+);
+const editUrl = `${GITHUB_BASE_PAGE_URL}/tag/[tag].astro`;
+---
+
+<BlogListLayout
+	posts={postsWithTag}
+	title={params.tag}
+	description={`Posts tagged with ${params.tag}`}
+>
+	<nav slot="before-content">
+		<div class="pb-16">
+			<Back />
+		</div>
+		<div class="pb-8 flex gap-2 place-content-center">
+			<SocialLinks />
+		</div>
+	</nav>
+	<Footer slot="after-content" {editUrl} />
+</BlogListLayout>
