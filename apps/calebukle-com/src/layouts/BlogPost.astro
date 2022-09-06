@@ -19,7 +19,7 @@ export interface Props {
 
 const { content: rawContent } = Astro.props;
 const content = normalizePost(rawContent);
-const editUrl = `${GITHUB_BASE_PAGE_URL}/${Astro.url.pathname}.md`;
+const editUrl = `${GITHUB_BASE_PAGE_URL}/${Astro.url.pathname.endsWith('/') ? Astro.url.pathname.slice(0, -1) : Astro.url.pathname}.md`;
 ---
 
 <!DOCTYPE html>
