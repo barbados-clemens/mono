@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import BlogCard from '../components/BlogCard.astro';
+import Search from '../components/Search.astro';
 import { BlogPost, SITE_DESCRIPTION, SITE_TITLE } from '../config';
 
 export interface Props {
@@ -21,6 +22,7 @@ const {
 		<BaseHead {title} {description} />
 	</head>
 	<body class="bg-slate-900 max-w-screen-sm px-6 pt-8 mx-auto">
+		<Search />
 		<slot name="before-content" />
 		<main class="max-w-screen-sm border-t-2 border-gray-300/80">
 			{

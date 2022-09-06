@@ -1,0 +1,21 @@
+<!-- TODO(caleb): make this not suck -->
+<div class="fixed right-10">
+	<input type="search" id="search-bar-input" placeholder="search"/>
+</div>
+<link
+	rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/docs-searchbar.js@2.2.0/dist/cdn/docs-searchbar.min.css"
+/>
+<script
+	is:inline
+	src="https://cdn.jsdelivr.net/npm/docs-searchbar.js@2.2.0/dist/cdn/docs-searchbar.min.js"
+></script>
+<script is:inline>
+	docsSearchBar({
+		hostUrl: 'https://ms-44ecdb5cb573-584.nyc.meilisearch.io',
+		apiKey: 'a34b05fe11e3913e8e342e5c7af9827fae1b11e984124ff5bfca37f13da1b5ed',
+		indexUid: 'blog',
+		inputSelector: '#search-bar-input',
+		debug: true, // Set debug to true if you want to inspect the dropdown
+	});
+</script>
