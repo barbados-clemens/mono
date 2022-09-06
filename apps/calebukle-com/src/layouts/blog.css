@@ -14,14 +14,17 @@
 	font-size: 1.875rem; /* 30px */
 	line-height: 2.25rem; /* 36px */
 }
+
 .blog-content h2 {
 	font-size: 1.5rem; /* 24px */
 	line-height: 2rem; /* 32px */
 }
+
 .blog-content h3 {
 	font-size: 1.25rem; /* 20px */
 	line-height: 1.75rem; /* 28px */
 }
+
 .blog-content h4 {
 	font-size: 1.125rem; /* 18px */
 	line-height: 1.75rem; /* 28px */
@@ -36,9 +39,11 @@
 	padding-inline-start: 2rem;
 	padding-block: 0.5rem;
 }
+
 .blog-content ul li {
 	list-style: circle;
 }
+
 .blog-content ol li {
 	list-style: decimal;
 }
@@ -53,6 +58,7 @@
 	padding: 0.2em 0.4em;
 	font-size: 85%;
 }
+
 .blog-content .astro-code {
 	padding: 1rem;
 }
@@ -60,12 +66,22 @@
 .blog-content img {
 	margin-inline: auto;
 }
+
 .blog-content blockquote {
 	color: #8b949e;
 	border-left: 0.25em solid #30363d;
 	padding: 0 1em;
 }
+
 .blog-content a {
 	color: #58a6ff;
 	text-decoration: underline;
+}
+
+.blog-content .tags {
+	margin-block-end: 0;
+}
+
+.blog-content .tags a {
+	color: rgb(107 114 128);
 }
