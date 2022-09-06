@@ -1,0 +1,63 @@
+{
+	"index_uid": "blog",
+	"start_urls": [
+		"https://calebukle.com",
+		{
+			"url": "https://calebukle.com/coffee",
+			"selectors_key": "coffee"
+		}
+	],
+	"stop_urls": ["https://calebukle.com/tag/"],
+	"min_index_level": 1,
+	"scrape_start_urls": true,
+	"sitemap_urls": ["https://calebukle.com/sitemap-0.xml"],
+	"custom_settings": {
+		"stopWords": ["of", "the"],
+		"synonyms": {
+			"monorepo": ["nx"],
+			"nx": ["monorepo"]
+		}
+	},
+	"selectors": {
+		"coffee": {
+			"lvl0": {
+				"selector": "h1",
+				"global": true,
+				"default_value": "Coffee"
+			},
+			"lvl1": {
+				"selector": "section header",
+				"global": true
+			},
+			"lvl2": {
+				"selector": "section p"
+			},
+			"lvl3": {
+				"selector": "li div.sticky span"
+			}
+		},
+		"default": {
+			"lvl0": {
+				"selector": ".tags:first-child a:last-child",
+				"global": true,
+				"default_value": "✍️ Articles"
+			},
+			"lvl1": {
+				"selector": "article h1",
+				"global": true
+			},
+			"lvl2": {
+				"selector": "article h2"
+			},
+			"lvl3": {
+				"selector": "article h3"
+			},
+			"lvl4": {
+				"selector": "article .tags"
+			},
+			"text": {
+				"selector": "p"
+			}
+		}
+	}
+}

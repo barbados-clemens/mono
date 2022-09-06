@@ -1,0 +1,19 @@
+name: Scraper
+on:
+  workflow_dispatch:
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Run scraper
+        env:
+          HOST_URL: ${{ secrets.MEILISEARCH_HOST_URL }}
+          API_KEY: ${{ secrets.MEILISEARCH_API_KEY }}
+        run: |
+          docker run -t --rm \
+            -e MEILISEARCH_HOST_URL=$HOST_URL \
+            -e MEILISEARCH_API_KEY=$API_KEY \
+            -v $(PWD)/tools/search/config.json:/docs-scraper/config.json \
+            getmeili/docs-scraper:v0.12.3 pipenv run ./docs_scraper config.json
