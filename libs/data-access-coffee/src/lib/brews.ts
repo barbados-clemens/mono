@@ -3,9 +3,9 @@ import { DB_CLIENT } from './db-client';
 // *[_type == 'brew']{...,brewPic{asset->},brewedWith->{...,beans->{...,image{asset->}}}}
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
-export async function getBrews(options: { before: string; after: string }) {
-	const query = `*[_type == "brew" && brewedOn > $after && brewedOn < $before]{...,brewPic{asset->},brewedWith->{...,beans->{...,image{asset->}}}} | order(brewedOn desc)`;
-	const rawResults = await DB_CLIENT.fetch<RawBrew[]>(query, { ...options });
+export async function getBrews() {
+	const query = `*[_type == "brew"]{...,brewPic{asset->},brewedWith->{...,beans->{...,image{asset->}}}} | order(brewedOn desc)`;
+	const rawResults = await DB_CLIENT.fetch<RawBrew[]>(query);
 	return rawResults.filter((b) => b.brewPic);
 }
 
