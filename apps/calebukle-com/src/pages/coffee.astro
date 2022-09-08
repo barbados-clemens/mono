@@ -25,7 +25,7 @@ const editUrl = `${GITHUB_BASE_PAGE_URL}/coffee.astro`;
 		<ol class="ml-4 relative border-l border-gray-200 gap-4">
 			{
 				brews.map((brew) => (
-					<li>
+					<li id={brew.brewedOn}>
 						<div class="sticky top-4">
 							<div class="absolute w-5 h-5 bg-gray-200 rounded-full -left-2.5 border border-white" />
 							<span class="text-white leading-none lg:-ml-[120px]">
