@@ -4,13 +4,6 @@
 	"affected": {
 		"defaultBase": "main"
 	},
-	"implicitDependencies": {
-		"package.json": {
-			"dependencies": "*",
-			"devDependencies": "*"
-		},
-		".eslintrc.json": "*"
-	},
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "@nrwl/nx-cloud",
@@ -31,6 +24,9 @@
 		},
 		"test": {
 			"inputs": ["default", "^prod"]
+		},
+		"lint": {
+			"inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
 		}
 	},
 	"generators": {

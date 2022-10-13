@@ -12,7 +12,7 @@
 		},
 		"test": {
 			"executor": "@nrwl/jest:jest",
-			"outputs": ["coverage/libs/data-access-coffee"],
+			"outputs": ["{workspaceRoot}/coverage/libs/data-access-coffee"],
 			"options": {
 				"jestConfig": "libs/data-access-coffee/jest.config.ts",
 				"passWithNoTests": true
