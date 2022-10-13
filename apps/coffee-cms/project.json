@@ -5,7 +5,7 @@
 	"targets": {
 		"build": {
 			"executor": "nx:run-commands",
-			"outputs": ["dist/apps/coffee-cms"],
+			"outputs": ["{workspaceRoot}/dist/apps/coffee-cms"],
 			"options": {
 				"commands": ["sanity build ../../dist/apps/coffee-cms --yes"],
 				"parallel": false,
