@@ -86,7 +86,7 @@ async function createNewHeightTask(
 		},
 		method: 'POST',
 		body: JSON.stringify({
-			listIds: [HEIGHT_ID_MAP.lists.ghIssueTriage, HEIGHT_ID_MAP.lists.inbox],
+			listIds: [HEIGHT_ID_MAP.lists.ghIssueTriage, HEIGHT_ID_MAP.lists.nx],
 			name: ghIssue.title,
 			description: ghIssue.url,
 		}),
@@ -123,5 +123,5 @@ async function isNewIssue(title: string) {
 	).then((r) => r.json());
 	console.log('found issues ', items?.list?.length);
 	console.table(items?.list, ['name', 'url']);
-	return items.list.length === 0;
+	return items?.list?.length === 0;
 }
