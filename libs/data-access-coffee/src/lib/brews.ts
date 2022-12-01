@@ -4,7 +4,7 @@ import { DB_CLIENT } from './db-client';
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 export async function getBrews() {
-	const query = `*[_type == "brew"]{...,brewPic{asset->},brewedWith->{...,beans->{...,image{asset->}}}} | order(brewedOn desc)`;
+	const query = `*[_type == "brew"]{...,brewPic{asset->},brewedWith->{...,beans[]->{...,image{asset->}}}} | order(brewedOn desc)`;
 	const rawResults = await DB_CLIENT.fetch<RawBrew[]>(query);
 	return rawResults.filter((b) => b.brewPic);
 }
