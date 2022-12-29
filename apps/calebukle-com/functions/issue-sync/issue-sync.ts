@@ -78,6 +78,7 @@ async function createAsanaTaskAsync(name: string, descrption: string) {
 			followers: [calebGID],
 		})
 		.then((r: any) => {
-			console.log('Created Asana Task', r.url, 'for issue', descrption);
+			console.log('Created Asana Task for issue', name, descrption);
+			console.log(JSON.stringify(r, null, 2));
 		});
 }
