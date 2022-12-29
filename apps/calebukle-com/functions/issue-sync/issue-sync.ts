@@ -20,7 +20,7 @@ export const handler = schedule('@hourly', async (event) => {
 
 	if (issues.length > 0) {
 		const newTasks = issues.map((issue) =>
-			createAsanaTaskAsync(issue.title, issue.url)
+			createAsanaTaskAsync(issue.title, issue.html_url)
 		);
 		await Promise.all(newTasks);
 	}
@@ -40,9 +40,15 @@ async function getGitHubUpdateIssuesSince(since: Date) {
 		})
 		.then((r) => {
 			console.log('Total issues updated: ', r.data.length);
-			console.table(r.data, ['title', 'url']);
+			console.table(r.data, ['title', 'html_url', 'created_at']);
 			const testingIssues = r.data.filter((d) => {
+				console.log('Processing', d.title, '(created at', d.created_at, ')');
+				if (new Date(d.created_at) < since) {
+					console.log('\tIssue was created before the since date');
+					return false;
+				}
 				if (ISSUE_KEYWORDS.some((k) => d.title.includes(k))) {
+					console.log('\tIssue contains keyword in title');
 					return true;
 				}
 				if (
@@ -52,12 +58,15 @@ async function getGitHubUpdateIssuesSince(since: Date) {
 							: l.name?.includes('test')
 					)
 				) {
+					console.log('\tIssue contains matching label', d.labels);
 					return true;
 				}
+				console.log('\tIssue did not matching anything');
 				return false;
 			});
+
 			console.log('Total testing issues updated', testingIssues.length);
-			console.table(testingIssues, ['title', 'url']);
+			console.table(testingIssues, ['title', 'html_url', 'created_at']);
 			return testingIssues;
 		});
 }
@@ -78,7 +87,11 @@ async function createAsanaTaskAsync(name: string, descrption: string) {
 			followers: [calebGID],
 		})
 		.then((r: any) => {
-			console.log('Created Asana Task for issue', name, descrption);
-			console.log(JSON.stringify(r, null, 2));
+			console.log(
+				'Created Asana Task',
+				r?.permalink_url,
+				`for issue ${name}(${descrption})`
+			);
+			return r;
 		});
 }
