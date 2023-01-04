@@ -5,7 +5,7 @@ import { Octokit } from 'octokit';
 const GITHUB_PAT = process.env.GITHUB_PAT;
 const ASANA_TOKEN = process.env.ASANA_TOKEN;
 const ONE_HOUR_AGO_MS = 3_600_000;
-const ISSUE_KEYWORDS = ['jest', 'vitest', 'cypress', 'test'];
+const ISSUE_KEYWORDS = ['jest', 'vitest', 'cypress', 'test', 'e2e'];
 const GH_CLIENT = new Octokit({ auth: GITHUB_PAT });
 const ASANA_CLIENT = asana.Client.create({
 	defaultHeaders: {
@@ -74,11 +74,14 @@ async function getGitHubUpdateIssuesSince(since: Date) {
 async function createAsanaTaskAsync(name: string, descrption: string) {
 	const calebGID = '1201237969153910';
 	const nrwlWorkspaceGID = '989832235800250';
+	const ghIssueSectionGID = '1203641372517606';
+
 	return await ASANA_CLIENT.tasks
 		.createTask({
 			name: `[GH] ${name}`,
 			notes: descrption,
 			assignee: calebGID,
+			assignee_section: ghIssueSectionGID,
 			completed: false,
 			projects: [],
 			resource_type: 'task',
