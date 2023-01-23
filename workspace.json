@@ -5,6 +5,7 @@
 		"calebukle-com": "apps/calebukle-com",
 		"coffee-cms": "apps/coffee-cms",
 		"data-access-coffee": "libs/data-access-coffee",
+		"data-access-records": "libs/data-access-records",
 		"image-resizer": "apps/image-resizer"
 	}
 }

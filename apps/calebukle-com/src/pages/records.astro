@@ -1,0 +1,45 @@
+---
+import Footer from '../components/Footer.astro';
+import BasePageLayout from '../layouts/BasePageLayout.astro';
+import { GITHUB_BASE_PAGE_URL } from '../config';
+import Back from '../components/Back.astro';
+import { getAllRecords } from '@mono/data-access-records';
+const records = await getAllRecords().then((records) => {
+	return records.map((r) => {
+		return {
+			...r,
+			link: 'https://discogs.com/release/' + r.id,
+			full_name:
+				r.basic_information.title +
+				' - ' +
+				r.basic_information.artists.map((a) => a.name).join(', '),
+		};
+	});
+});
+const editUrl = `${GITHUB_BASE_PAGE_URL}/records.astro`;
+---
+
+<BasePageLayout>
+	<main class="mt-6 grid place-items-center">
+		<nav class="pb-16 self-start">
+			<Back />
+		</nav>
+		<ul class="grid gap-4 grid-cols-2 lg:grid-cols-4">
+			{
+				records.map((record) => (
+					<li>
+						<a href={record.link} title={record.full_name}>
+							<img
+								loading="lazy"
+								class="hover:scale-110 transition-transform duration-150 hover:rotate-1 w-56"
+								src={record.basic_information.cover_image}
+								alt={'Album Artwork for ' + record.full_name}
+							/>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+		<Footer editUrl={editUrl} />
+	</main>
+</BasePageLayout>
