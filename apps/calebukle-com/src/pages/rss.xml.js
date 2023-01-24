@@ -1,20 +1,22 @@
-import rss from '@astrojs/rss';
+import rss, { pagesGlobToRssItems } from '@astrojs/rss';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../config';
 
-const postImportResult = import.meta.glob('./blog/**/*.md', { eager: true });
-const posts = Object.values(postImportResult);
+export async function get(context) {
+	const postImportResult = import.meta.glob('./blog/**/*.md', { eager: true });
+	const posts = Object.values(postImportResult);
 
-export const get = () =>
-	rss({
+	return rss({
 		title: SITE_TITLE,
 		description: SITE_DESCRIPTION,
-		site: import.meta.env.SITE,
+		site: context.site,
 		items: posts.map((p) => {
+			console.log(p);
 			return {
 				...p,
 				link: p.url,
 				title: p.frontmatter.title,
-				pubDate: p.frontmatter.pubDate,
+				pubDate: p.frontmatter.pubDate || p.frontmatter.publish_date,
 			};
 		}),
 	});
+}
