@@ -6,6 +6,7 @@
 		"coffee-cms": "apps/coffee-cms",
 		"data-access-coffee": "libs/data-access-coffee",
 		"data-access-records": "libs/data-access-records",
+		"data-access-spotify": "libs/data-access-spotify",
 		"image-resizer": "apps/image-resizer"
 	}
 }

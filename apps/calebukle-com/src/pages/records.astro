@@ -4,6 +4,7 @@ import BasePageLayout from '../layouts/BasePageLayout.astro';
 import { GITHUB_BASE_PAGE_URL } from '../config';
 import Back from '../components/Back.astro';
 import { getAllRecords } from '@mono/data-access-records';
+import { getNowPlaying } from '@mono/data-access-spotify';
 const records = await getAllRecords().then((records) => {
 	return records.map((r) => {
 		return {
@@ -17,6 +18,7 @@ const records = await getAllRecords().then((records) => {
 	});
 });
 const editUrl = `${GITHUB_BASE_PAGE_URL}/records.astro`;
+const now = await getNowPlaying();
 ---
 
 <BasePageLayout>
@@ -24,6 +26,7 @@ const editUrl = `${GITHUB_BASE_PAGE_URL}/records.astro`;
 		<nav class="pb-16 self-start">
 			<Back />
 		</nav>
+		<pre class="text-white">{JSON.stringify(now, null, 2)}</pre>
 		<ul class="grid gap-4 grid-cols-2 lg:grid-cols-4">
 			{
 				records.map((record) => (

@@ -16,7 +16,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@mono/data-access-coffee": ["libs/data-access-coffee/src/index.ts"],
-			"@mono/data-access-records": ["libs/data-access-records/src/index.ts"]
+			"@mono/data-access-records": ["libs/data-access-records/src/index.ts"],
+			"@mono/data-access-spotify": ["libs/data-access-spotify/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]
