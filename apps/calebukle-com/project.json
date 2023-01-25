@@ -43,5 +43,6 @@
 			}
 		}
 	},
-	"tags": ["scope:calebukle-com", "type:app"]
+	"tags": ["scope:calebukle-com", "type:app"],
+	"name": "calebukle-com"
 }
