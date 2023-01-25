@@ -31,5 +31,6 @@
 				"cwd": "apps/coffee-cms"
 			}
 		}
-	}
+	},
+	"name": "coffee-cms"
 }
