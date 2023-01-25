@@ -5,7 +5,7 @@ import tailwind from '@astrojs/tailwind';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://calebukle.com',
+	site: 'https://calebukle.com/',
 	integrations: [mdx(), sitemap(), tailwind()],
 	outDir: '../../dist/apps/calebukle-com',
 });
