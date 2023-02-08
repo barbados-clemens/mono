@@ -1,0 +1,18 @@
+{
+	"name": "coffee-cms",
+	"private": true,
+	"version": "1.0.0",
+	"description": "",
+	"main": "package.json",
+	"author": "Caleb Ukle <caleb.ukle+sanity@gmail.com>",
+	"license": "UNLICENSED",
+	"scripts": {
+		"sanity": "sanity"
+	},
+	"keywords": [
+		"sanity"
+	],
+	"dependencies": {
+		"styled-components": "^5.3.5"
+	}
+}
