@@ -12,10 +12,18 @@
 				"cwd": "apps/coffee-cms"
 			}
 		},
-		"serve": {
+		"preview": {
 			"executor": "nx:run-commands",
 			"options": {
 				"commands": ["sanity start"],
+				"parallel": false,
+				"cwd": "apps/coffee-cms"
+			}
+		},
+		"serve": {
+			"executor": "nx:run-commands",
+			"options": {
+				"commands": ["sanity dev"],
 				"parallel": false,
 				"cwd": "apps/coffee-cms"
 			}
@@ -24,9 +32,7 @@
 			"executor": "nx:run-commands",
 			"dependsOn": ["build", "^build"],
 			"options": {
-				"commands": [
-					"sanity deploy ../../dist/apps/coffee-cms --no-build --yes"
-				],
+				"commands": ["sanity deploy ../../dist/apps/coffee-cms --no-build --yes"],
 				"parallel": false,
 				"cwd": "apps/coffee-cms"
 			}
