@@ -72,29 +72,30 @@ async function getGitHubUpdateIssuesSince(since: Date) {
 }
 
 async function createAsanaTaskAsync(name: string, descrption: string) {
-	const calebGID = '1201237969153910';
-	const nrwlWorkspaceGID = '989832235800250';
-	const ghIssueSectionGID = '1203641372517606';
+	return Promise.resolve();
+	// const calebGID = '1201237969153910';
+	// const nrwlWorkspaceGID = '989832235800250';
+	// const ghIssueSectionGID = '1203641372517606';
 
-	return await ASANA_CLIENT.tasks
-		.createTask({
-			name: `[GH] ${name}`,
-			notes: descrption,
-			assignee: calebGID,
-			assignee_section: ghIssueSectionGID,
-			completed: false,
-			projects: [],
-			resource_type: 'task',
-			resource_subtype: 'default_task',
-			workspace: nrwlWorkspaceGID,
-			followers: [calebGID],
-		})
-		.then((r: any) => {
-			console.log(
-				'Created Asana Task',
-				r?.permalink_url,
-				`for issue ${name}(${descrption})`
-			);
-			return r;
-		});
+	// return await ASANA_CLIENT.tasks
+	// 	.createTask({
+	// 		name: `[GH] ${name}`,
+	// 		notes: descrption,
+	// 		assignee: calebGID,
+	// 		assignee_section: ghIssueSectionGID,
+	// 		completed: false,
+	// 		projects: [],
+	// 		resource_type: 'task',
+	// 		resource_subtype: 'default_task',
+	// 		workspace: nrwlWorkspaceGID,
+	// 		followers: [calebGID],
+	// 	})
+	// 	.then((r: any) => {
+	// 		console.log(
+	// 			'Created Asana Task',
+	// 			r?.permalink_url,
+	// 			`for issue ${name}(${descrption})`
+	// 		);
+	// 		return r;
+	// 	});
 }
